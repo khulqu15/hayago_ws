@@ -1,0 +1,143 @@
+[0.000000] (-) TimerEvent: {}
+[0.002457] (drone_control) JobQueued: {'identifier': 'drone_control', 'dependencies': OrderedDict()}
+[0.002633] (drone_control) JobStarted: {'identifier': 'drone_control'}
+[0.060767] (drone_control) JobProgress: {'identifier': 'drone_control', 'progress': 'cmake'}
+[0.061584] (drone_control) Command: {'cmd': ['/usr/bin/cmake', '/home/khuluq/hayago_ws/src/drone_control', '-DCMAKE_INSTALL_PREFIX=/home/khuluq/hayago_ws/install/drone_control'], 'cwd': '/home/khuluq/hayago_ws/build/drone_control', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('GeographicLib_DATA', '/usr/share/GeographicLib/'), ('USER', 'khuluq'), ('LC_TIME', 'id_ID.UTF-8'), ('SSH_AGENT_PID', '1857'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/khuluq/ros2_ws/install/mavros_extras/lib:/home/khuluq/ros2_ws/install/mavros/lib:/home/khuluq/ros2_ws/install/mavros_msgs/lib:/home/khuluq/ros2_ws/install/libmavconn/lib:/home/khuluq/tello_ros_ws/install/tello_gazebo/lib:/home/khuluq/tello_ros_ws/install/tello_driver/lib:/home/khuluq/tello_ros_ws/install/tello_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/x86_64-linux-gnu:/opt/ros/foxy/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('HOME', '/home/khuluq'), ('OLDPWD', '/home/khuluq/hayago_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'id_ID.UTF-8'), ('MANAGERPID', '1670'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/khuluq/drone_delivery_ws/install:/home/khuluq/ros2_ws/install:/home/khuluq/tello_ros_ws/install'), ('ROS_DISTRO', 'foxy'), ('LOGNAME', 'khuluq'), ('JOURNAL_STREAM', '8:46794'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'khuluq'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/home/khuluq/ardupilot_gazebo/models'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/khuluq/STM32MPU/STM32CubeProgrammer/bin:/usr/lib/ccache:/opt/ros/foxy/bin:/home/khuluq/.cargo/bin:/usr/lib/ccache:/home/khuluq/ardupilot/Tools/autotest:/opt/gcc-arm-none-eabi-10-2020-q4-major/bin:/opt/gcc-arm-none-eabi-9-2020-q2-update/bin:/home/khuluq/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/home/khuluq/.local/share/JetBrains/Toolbox/scripts:/home/khuluq/ardupilot/Tools/autotest:/home/khuluq/Android/Sdk/tools:/opt/timedoctor2'), ('SESSION_MANAGER', 'local/ninno:@/tmp/.ICE-unix/1893,unix/ninno:/tmp/.ICE-unix/1893'), ('INVOCATION_ID', '4960c94ee93141c4a1f85836ccbc762f'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'id_ID.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/0d14e05f_76a7_4a48_9640_334975519a2f'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'id_ID.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.128'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/khuluq/drone_delivery_ws/install/delivery:/home/khuluq/ros2_ws/install/orbbit_drone:/home/khuluq/ros2_ws/install/mavros_extras:/home/khuluq/ros2_ws/install/mavros:/home/khuluq/ros2_ws/install/mavros_msgs:/home/khuluq/ros2_ws/install/libmavconn:/home/khuluq/tello_ros_ws/install/tello_gazebo:/home/khuluq/tello_ros_ws/install/tello_driver:/home/khuluq/tello_ros_ws/install/tello_msgs:/home/khuluq/tello_ros_ws/install/tello_description:/home/khuluq/tello_ros_ws/install/ros2_shared:/opt/ros/foxy'), ('SHELL', '/bin/bash'), ('LC_NAME', 'id_ID.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'id_ID.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo-11:'), ('LC_IDENTIFICATION', 'id_ID.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/khuluq/hayago_ws/build/drone_control'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('ANDROID_HOME', '/home/khuluq/Android/Sdk'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/khuluq/drone_delivery_ws/install/delivery/lib/python3.8/site-packages:/home/khuluq/ros2_ws/install/mavros/lib/python3.8/site-packages:/home/khuluq/ros2_ws/install/mavros_msgs/lib/python3.8/site-packages:/home/khuluq/tello_ros_ws/install/tello_msgs/lib/python3.8/site-packages:/home/khuluq/tello_ros_ws/install/tello_commander/lib/python3.8/site-packages:/opt/ros/foxy/lib/python3.8/site-packages'), ('LC_NUMERIC', 'id_ID.UTF-8'), ('LC_PAPER', 'id_ID.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6003'), ('CMAKE_PREFIX_PATH', '/home/khuluq/ros2_ws/install/orbbit_drone:/home/khuluq/ros2_ws/install/mavros_extras:/home/khuluq/ros2_ws/install/mavros:/home/khuluq/ros2_ws/install/mavros_msgs:/home/khuluq/ros2_ws/install/libmavconn:/home/khuluq/tello_ros_ws/install/tello_gazebo:/home/khuluq/tello_ros_ws/install/tello_driver:/home/khuluq/tello_ros_ws/install/tello_msgs:/home/khuluq/tello_ros_ws/install/tello_description:/home/khuluq/tello_ros_ws/install/ros2_shared')]), 'shell': False}
+[0.100276] (-) TimerEvent: {}
+[0.200958] (-) TimerEvent: {}
+[0.301557] (-) TimerEvent: {}
+[0.332337] (drone_control) StdoutLine: {'line': b'-- The C compiler identification is GNU 9.4.0\n'}
+[0.401717] (-) TimerEvent: {}
+[0.485843] (drone_control) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 9.4.0\n'}
+[0.501863] (-) TimerEvent: {}
+[0.502965] (drone_control) StdoutLine: {'line': b'-- Check for working C compiler: /usr/lib/ccache/cc\n'}
+[0.602017] (-) TimerEvent: {}
+[0.703315] (-) TimerEvent: {}
+[0.729387] (drone_control) StdoutLine: {'line': b'-- Check for working C compiler: /usr/lib/ccache/cc -- works\n'}
+[0.732431] (drone_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.803727] (-) TimerEvent: {}
+[0.904251] (-) TimerEvent: {}
+[1.004840] (-) TimerEvent: {}
+[1.105269] (-) TimerEvent: {}
+[1.110342] (drone_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[1.133679] (drone_control) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[1.134737] (drone_control) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[1.195363] (drone_control) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/lib/ccache/c++\n'}
+[1.205394] (-) TimerEvent: {}
+[1.309696] (-) TimerEvent: {}
+[1.410572] (-) TimerEvent: {}
+[1.430814] (drone_control) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/lib/ccache/c++ -- works\n'}
+[1.435061] (drone_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[1.510731] (-) TimerEvent: {}
+[1.612047] (-) TimerEvent: {}
+[1.692244] (drone_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[1.712192] (-) TimerEvent: {}
+[1.722271] (drone_control) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[1.724228] (drone_control) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[1.730978] (drone_control) StdoutLine: {'line': b'-- Found ament_cmake: 0.9.11 (/opt/ros/foxy/share/ament_cmake/cmake)\n'}
+[1.800241] (drone_control) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") \n'}
+[1.800744] (drone_control) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[1.812510] (-) TimerEvent: {}
+[1.913026] (-) TimerEvent: {}
+[2.173053] (-) TimerEvent: {}
+[2.273522] (-) TimerEvent: {}
+[2.374051] (-) TimerEvent: {}
+[2.476391] (-) TimerEvent: {}
+[2.576887] (-) TimerEvent: {}
+[2.627580] (drone_control) StdoutLine: {'line': b'-- Found rclcpp: 2.4.2 (/opt/ros/foxy/share/rclcpp/cmake)\n'}
+[2.677017] (-) TimerEvent: {}
+[2.777472] (-) TimerEvent: {}
+[2.808090] (drone_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[2.839747] (drone_control) StdoutLine: {'line': b'-- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)\n'}
+[2.877734] (-) TimerEvent: {}
+[2.978214] (-) TimerEvent: {}
+[3.078756] (-) TimerEvent: {}
+[3.179415] (-) TimerEvent: {}
+[3.221198] (drone_control) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  \n'}
+[3.280430] (-) TimerEvent: {}
+[3.344418] (drone_control) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/foxy/include  \n'}
+[3.379728] (-) TimerEvent: {}
+[3.480262] (-) TimerEvent: {}
+[3.580737] (-) TimerEvent: {}
+[3.595727] (drone_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[3.680876] (-) TimerEvent: {}
+[3.751227] (drone_control) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)\n'}
+[3.755353] (drone_control) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[3.758272] (drone_control) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[3.781041] (-) TimerEvent: {}
+[3.881584] (-) TimerEvent: {}
+[3.982397] (-) TimerEvent: {}
+[4.045167] (drone_control) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[4.046316] (drone_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[4.082584] (-) TimerEvent: {}
+[4.186262] (-) TimerEvent: {}
+[4.286829] (-) TimerEvent: {}
+[4.329926] (drone_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed\n'}
+[4.330398] (drone_control) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads\n'}
+[4.387061] (-) TimerEvent: {}
+[4.487794] (-) TimerEvent: {}
+[4.504337] (drone_control) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads - not found\n'}
+[4.504938] (drone_control) StdoutLine: {'line': b'-- Looking for pthread_create in pthread\n'}
+[4.587910] (-) TimerEvent: {}
+[4.655224] (drone_control) StdoutLine: {'line': b'-- Looking for pthread_create in pthread - found\n'}
+[4.661828] (drone_control) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[4.688093] (-) TimerEvent: {}
+[4.789345] (-) TimerEvent: {}
+[4.889866] (-) TimerEvent: {}
+[4.990362] (-) TimerEvent: {}
+[5.049478] (drone_control) StdoutLine: {'line': b'-- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)\n'}
+[5.090494] (-) TimerEvent: {}
+[5.190975] (-) TimerEvent: {}
+[5.291501] (-) TimerEvent: {}
+[5.391985] (-) TimerEvent: {}
+[5.398265] (drone_control) StdoutLine: {'line': b'-- Found mavros_msgs: 2.4.0 (/home/khuluq/ros2_ws/install/mavros_msgs/share/mavros_msgs/cmake)\n'}
+[5.492128] (-) TimerEvent: {}
+[5.592609] (-) TimerEvent: {}
+[5.693126] (-) TimerEvent: {}
+[5.793617] (-) TimerEvent: {}
+[5.894172] (-) TimerEvent: {}
+[5.994679] (-) TimerEvent: {}
+[6.098368] (-) TimerEvent: {}
+[6.199163] (-) TimerEvent: {}
+[6.299711] (-) TimerEvent: {}
+[6.400315] (-) TimerEvent: {}
+[6.403840] (drone_control) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)\n'}
+[6.500436] (-) TimerEvent: {}
+[6.535940] (drone_control) StderrLine: {'line': b"Error parsing '/home/khuluq/hayago_ws/src/drone_control/package.xml':\n"}
+[6.601378] (-) TimerEvent: {}
+[6.702161] (-) TimerEvent: {}
+[6.802741] (-) TimerEvent: {}
+[6.837075] (drone_control) StderrLine: {'line': b"/home/khuluq/.local/lib/python3.8/site-packages/requests/__init__.py:78: RequestsDependencyWarning: urllib3 (2.0.3) or chardet (3.0.4) doesn't match a supported version!\n"}
+[6.838233] (drone_control) StderrLine: {'line': b'  warnings.warn("urllib3 ({0}) or chardet ({1}) doesn\'t match a supported "\n'}
+[6.839109] (drone_control) StderrLine: {'line': b'Traceback (most recent call last):\n'}
+[6.839784] (drone_control) StderrLine: {'line': b'  File "/opt/ros/foxy/share/ament_cmake_core/cmake/core/package_xml_2_cmake.py", line 143, in <module>\n'}
+[6.840115] (drone_control) StderrLine: {'line': b'    main()\n'}
+[6.840428] (drone_control) StderrLine: {'line': b'  File "/opt/ros/foxy/share/ament_cmake_core/cmake/core/package_xml_2_cmake.py", line 52, in main\n'}
+[6.840719] (drone_control) StderrLine: {'line': b'    raise e\n'}
+[6.840976] (drone_control) StderrLine: {'line': b'  File "/opt/ros/foxy/share/ament_cmake_core/cmake/core/package_xml_2_cmake.py", line 48, in main\n'}
+[6.841229] (drone_control) StderrLine: {'line': b'    package = parse_package_string(\n'}
+[6.841471] (drone_control) StderrLine: {'line': b'  File "/usr/lib/python3/dist-packages/catkin_pkg/package.py", line 788, in parse_package_string\n'}
+[6.841706] (drone_control) StderrLine: {'line': b'    pkg.validate(warnings=warnings)\n'}
+[6.841941] (drone_control) StderrLine: {'line': b'  File "/usr/lib/python3/dist-packages/catkin_pkg/package.py", line 330, in validate\n'}
+[6.842230] (drone_control) StderrLine: {'line': b"    raise InvalidPackage('\\n'.join(errors), self.filename)\n"}
+[6.842477] (drone_control) StderrLine: {'line': b"catkin_pkg.package.InvalidPackage: Error(s) in package '/home/khuluq/hayago_ws/src/drone_control/package.xml':\n"}
+[6.842707] (drone_control) StderrLine: {'line': b'Invalid email "=" for person "khuluq"\n'}
+[6.902900] (-) TimerEvent: {}
+[6.913282] (drone_control) StderrLine: {'line': b'CMake Error at /opt/ros/foxy/share/ament_cmake_core/cmake/core/ament_package_xml.cmake:94 (message):\n'}
+[6.913766] (drone_control) StderrLine: {'line': b'  execute_process(/usr/bin/python3\n'}
+[6.914444] (drone_control) StderrLine: {'line': b'  /opt/ros/foxy/share/ament_cmake_core/cmake/core/package_xml_2_cmake.py\n'}
+[6.914763] (drone_control) StderrLine: {'line': b'  /home/khuluq/hayago_ws/src/drone_control/package.xml\n'}
+[6.915020] (drone_control) StderrLine: {'line': b'  /home/khuluq/hayago_ws/build/drone_control/ament_cmake_core/package.cmake)\n'}
+[6.915296] (drone_control) StderrLine: {'line': b'  returned error code 1\n'}
+[6.915534] (drone_control) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[6.915762] (drone_control) StderrLine: {'line': b'  /opt/ros/foxy/share/ament_cmake_core/cmake/core/ament_package_xml.cmake:49 (_ament_package_xml)\n'}
+[6.916032] (drone_control) StderrLine: {'line': b'  /opt/ros/foxy/share/ament_lint_auto/cmake/ament_lint_auto_find_test_dependencies.cmake:31 (ament_package_xml)\n'}
+[6.916282] (drone_control) StderrLine: {'line': b'  CMakeLists.txt:33 (ament_lint_auto_find_test_dependencies)\n'}
+[6.916512] (drone_control) StderrLine: {'line': b'\n'}
+[6.916730] (drone_control) StderrLine: {'line': b'\n'}
+[6.918625] (drone_control) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[6.920002] (drone_control) StdoutLine: {'line': b'See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeOutput.log".\n'}
+[6.920788] (drone_control) StdoutLine: {'line': b'See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeError.log".\n'}
+[6.941323] (drone_control) CommandEnded: {'returncode': 1}
+[6.943381] (drone_control) JobEnded: {'identifier': 'drone_control', 'rc': 1}
+[6.953958] (-) EventReactorShutdown: {}

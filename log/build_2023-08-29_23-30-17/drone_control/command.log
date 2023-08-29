@@ -1,0 +1,2 @@
+Invoking command in '/home/khuluq/hayago_ws/build/drone_control': /usr/bin/cmake /home/khuluq/hayago_ws/src/drone_control -DCMAKE_INSTALL_PREFIX=/home/khuluq/hayago_ws/install/drone_control
+Invoked command in '/home/khuluq/hayago_ws/build/drone_control' returned '1': /usr/bin/cmake /home/khuluq/hayago_ws/src/drone_control -DCMAKE_INSTALL_PREFIX=/home/khuluq/hayago_ws/install/drone_control
