@@ -1,0 +1,59 @@
+[0.059s] Invoking command in '/home/khuluq/hayago_ws/build/px4_ros_com': AMENT_PREFIX_PATH=/home/khuluq/hayago_ws/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/khuluq/hayago_ws/install/px4_msgs:/home/khuluq/ros2_ws/install/orbbit_drone:/home/khuluq/ros2_ws/install/mavros_extras:/home/khuluq/ros2_ws/install/mavros:/home/khuluq/ros2_ws/install/mavros_msgs:/home/khuluq/ros2_ws/install/libmavconn:/home/khuluq/tello_ros_ws/install/tello_gazebo:/home/khuluq/tello_ros_ws/install/tello_driver:/home/khuluq/tello_ros_ws/install/tello_msgs:/home/khuluq/tello_ros_ws/install/tello_description:/home/khuluq/tello_ros_ws/install/ros2_shared:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy LD_LIBRARY_PATH=/home/khuluq/hayago_ws/install/px4_msgs/lib:/home/khuluq/ros2_ws/install/mavros_extras/lib:/home/khuluq/ros2_ws/install/mavros/lib:/home/khuluq/ros2_ws/install/mavros_msgs/lib:/home/khuluq/ros2_ws/install/libmavconn/lib:/home/khuluq/tello_ros_ws/install/tello_gazebo/lib:/home/khuluq/tello_ros_ws/install/tello_driver/lib:/home/khuluq/tello_ros_ws/install/tello_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/x86_64-linux-gnu:/opt/ros/foxy/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins PYTHONPATH=/home/khuluq/hayago_ws/install/px4_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/khuluq/hayago_ws/build/px4_ros_com -- -j4 -l4
+[0.159s] -- Found ament_cmake: 0.9.11 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.221s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.887s] -- Found builtin_interfaces: 1.0.0 (/opt/ros/foxy/share/builtin_interfaces/cmake)
+[0.971s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.980s] -- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[1.391s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.462s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/foxy/share/eigen3_cmake_module/cmake)
+[1.469s] -- Found geometry_msgs: 2.0.5 (/opt/ros/foxy/share/geometry_msgs/cmake)
+[1.629s] -- Found px4_msgs: 2.0.1 (/home/khuluq/hayago_ws/install/px4_msgs/share/px4_msgs/cmake)
+[1.691s] -- Found rclcpp: 2.4.2 (/opt/ros/foxy/share/rclcpp/cmake)
+[1.842s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[1.849s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.386s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[2.718s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[2.983s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.996s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.996s] -- Configured cppcheck include dirs: /home/khuluq/hayago_ws/src/px4_ros_com/include;$<BUILD_INTERFACE:/home/khuluq/hayago_ws/src/px4_ros_com/include/px4_ros_com>
+[2.997s] -- Configured cppcheck exclude dirs and/or files: 
+[3.006s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.006s] -- Configured cpplint exclude dirs and/or files: 
+[3.009s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.013s] -- Added test 'lint_cmake' to check CMake code style
+[3.019s] -- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+[3.033s] -- Added test 'uncrustify' to check C / C++ code style
+[3.034s] -- Configured uncrustify additional arguments: 
+[3.043s] -- Added test 'xmllint' to check XML markup files
+[3.055s] -- Configuring done
+[3.157s] -- Generating done
+[3.164s] -- Build files have been written to: /home/khuluq/hayago_ws/build/px4_ros_com
+[3.309s] [ 20%] Built target frame_transforms
+[3.348s] [35m[1mScanning dependencies of target debug_vect_advertiser[0m
+[3.456s] [ 30%] [32mBuilding CXX object CMakeFiles/debug_vect_advertiser.dir/src/examples/advertisers/debug_vect_advertiser.cpp.o[0m
+[3.599s] [ 40%] [32m[1mLinking CXX executable debug_vect_advertiser[0m
+[4.234s] [ 40%] Built target debug_vect_advertiser
+[4.274s] [35m[1mScanning dependencies of target sensor_combined_listener[0m
+[4.380s] [ 50%] [32mBuilding CXX object CMakeFiles/sensor_combined_listener.dir/src/examples/listeners/sensor_combined_listener.cpp.o[0m
+[4.475s] [ 60%] [32m[1mLinking CXX executable sensor_combined_listener[0m
+[5.352s] [ 60%] Built target sensor_combined_listener
+[5.426s] [35m[1mScanning dependencies of target vehicle_gps_position_listener[0m
+[5.548s] [ 70%] [32mBuilding CXX object CMakeFiles/vehicle_gps_position_listener.dir/src/examples/listeners/vehicle_gps_position_listener.cpp.o[0m
+[15.213s] /home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp: In lambda function:
+[15.214s] /home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:60:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘latitude_deg’
+[15.214s]    60 |    std::cout << "lat: " << msg->latitude_deg  << std::endl;
+[15.214s]       |                                 ^~~~~~~~~~~~
+[15.214s] /home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:61:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘longitude_deg’
+[15.215s]    61 |    std::cout << "lon: " << msg->longitude_deg << std::endl;
+[15.215s]       |                                 ^~~~~~~~~~~~~
+[15.215s] /home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:62:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘altitude_msl_m’
+[15.215s]    62 |    std::cout << "alt: " << msg->altitude_msl_m  << std::endl;
+[15.216s]       |                                 ^~~~~~~~~~~~~~
+[15.216s] /home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:63:43: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘altitude_ellipsoid_m’; did you mean ‘alt_ellipsoid’?
+[15.216s]    63 |    std::cout << "alt_ellipsoid: " << msg->altitude_ellipsoid_m << std::endl;
+[15.216s]       |                                           ^~~~~~~~~~~~~~~~~~~~
+[15.217s]       |                                           alt_ellipsoid
+[15.217s] make[2]: *** [CMakeFiles/vehicle_gps_position_listener.dir/build.make:63: CMakeFiles/vehicle_gps_position_listener.dir/src/examples/listeners/vehicle_gps_position_listener.cpp.o] Error 1
+[15.218s] make[1]: *** [CMakeFiles/Makefile2:140: CMakeFiles/vehicle_gps_position_listener.dir/all] Error 2
+[15.219s] make: *** [Makefile:141: all] Error 2
+[15.232s] Invoked command in '/home/khuluq/hayago_ws/build/px4_ros_com' returned '2': AMENT_PREFIX_PATH=/home/khuluq/hayago_ws/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/khuluq/hayago_ws/install/px4_msgs:/home/khuluq/ros2_ws/install/orbbit_drone:/home/khuluq/ros2_ws/install/mavros_extras:/home/khuluq/ros2_ws/install/mavros:/home/khuluq/ros2_ws/install/mavros_msgs:/home/khuluq/ros2_ws/install/libmavconn:/home/khuluq/tello_ros_ws/install/tello_gazebo:/home/khuluq/tello_ros_ws/install/tello_driver:/home/khuluq/tello_ros_ws/install/tello_msgs:/home/khuluq/tello_ros_ws/install/tello_description:/home/khuluq/tello_ros_ws/install/ros2_shared:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy LD_LIBRARY_PATH=/home/khuluq/hayago_ws/install/px4_msgs/lib:/home/khuluq/ros2_ws/install/mavros_extras/lib:/home/khuluq/ros2_ws/install/mavros/lib:/home/khuluq/ros2_ws/install/mavros_msgs/lib:/home/khuluq/ros2_ws/install/libmavconn/lib:/home/khuluq/tello_ros_ws/install/tello_gazebo/lib:/home/khuluq/tello_ros_ws/install/tello_driver/lib:/home/khuluq/tello_ros_ws/install/tello_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/foxy/opt/yaml_cpp_vendor/lib:/opt/ros/foxy/opt/rviz_ogre_vendor/lib:/opt/ros/foxy/lib/x86_64-linux-gnu:/opt/ros/foxy/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins PYTHONPATH=/home/khuluq/hayago_ws/install/px4_msgs/lib/python3.8/site-packages:${PYTHONPATH} /usr/bin/cmake --build /home/khuluq/hayago_ws/build/px4_ros_com -- -j4 -l4

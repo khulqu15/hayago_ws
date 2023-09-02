@@ -1,0 +1,23 @@
+[0.060s] Invoking command in '/home/khuluq/hayago_ws/build/drone_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --build /home/khuluq/hayago_ws/build/drone_control -- -j4 -l4
+[0.130s] -- Found ament_cmake: 0.9.11 (/opt/ros/foxy/share/ament_cmake/cmake)
+[0.193s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.931s] -- Found rclcpp: 2.4.2 (/opt/ros/foxy/share/rclcpp/cmake)
+[1.026s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.036s] -- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[1.360s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.477s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[1.483s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.817s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[2.067s] -- Found mavros_msgs: 2.4.0 (/home/khuluq/ros2_ws/install/mavros_msgs/share/mavros_msgs/cmake)
+[3.124s] -- Found tf2_geometry_msgs: 0.13.14 (/opt/ros/foxy/share/tf2_geometry_msgs/cmake)
+[3.142s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/foxy/share/eigen3_cmake_module/cmake)
+[4.198s] CMake Error at CMakeLists.txt:29 (install):
+[4.199s]   install TARGETS given target "DIRECTORY" which does not exist.
+[4.199s] 
+[4.199s] 
+[4.200s] -- Found ament_lint_auto: 0.9.8 (/opt/ros/foxy/share/ament_lint_auto/cmake)
+[4.360s] -- Configuring incomplete, errors occurred!
+[4.361s] See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeOutput.log".
+[4.361s] See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeError.log".
+[4.376s] make: *** [Makefile:266: cmake_check_build_system] Error 1
+[4.382s] Invoked command in '/home/khuluq/hayago_ws/build/drone_control' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --build /home/khuluq/hayago_ws/build/drone_control -- -j4 -l4

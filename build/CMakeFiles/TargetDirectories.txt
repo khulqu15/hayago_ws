@@ -1,0 +1,10 @@
+/home/khuluq/hayago_ws/build/CMakeFiles/install/strip.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/install/local.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/install.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/list_install_components.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/rebuild_cache.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/edit_cache.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/test.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/drone_node.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/drone_control_uninstall.dir
+/home/khuluq/hayago_ws/build/CMakeFiles/uninstall.dir

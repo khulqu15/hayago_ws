@@ -1,0 +1,23 @@
+[0.087s] Invoking command in '/home/khuluq/hayago_ws/build/drone_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --build /home/khuluq/hayago_ws/build/drone_control -- -j4 -l4
+[0.471s] [100%] Built target drone_node
+[0.529s] Invoked command in '/home/khuluq/hayago_ws/build/drone_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --build /home/khuluq/hayago_ws/build/drone_control -- -j4 -l4
+[0.725s] Invoking command in '/home/khuluq/hayago_ws/build/drone_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --install /home/khuluq/hayago_ws/build/drone_control
+[0.775s] -- Install configuration: ""
+[0.777s] -- Execute custom install script
+[0.778s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/lib/drone_control/main.cpp
+[0.779s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/package_run_dependencies/drone_control
+[0.780s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/parent_prefix_path/drone_control
+[0.781s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/ament_prefix_path.sh
+[0.782s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/ament_prefix_path.dsv
+[0.782s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/path.sh
+[0.783s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/path.dsv
+[0.784s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.bash
+[0.785s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.sh
+[0.786s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.zsh
+[0.787s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.dsv
+[0.788s] -- Symlinking: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/package.dsv
+[0.838s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/packages/drone_control
+[0.840s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/cmake/drone_controlConfig.cmake
+[0.841s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/cmake/drone_controlConfig-version.cmake
+[0.842s] -- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/package.xml
+[0.851s] Invoked command in '/home/khuluq/hayago_ws/build/drone_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake --install /home/khuluq/hayago_ws/build/drone_control

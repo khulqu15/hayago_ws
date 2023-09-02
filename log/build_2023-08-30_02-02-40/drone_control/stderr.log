@@ -1,0 +1,5 @@
+CMake Error at CMakeLists.txt:29 (install):
+  install TARGETS given target "DIRECTORY" which does not exist.
+
+
+make: *** [Makefile:266: cmake_check_build_system] Error 1

@@ -1,0 +1,19 @@
+[100%] Built target drone_node
+-- Install configuration: ""
+-- Execute custom install script
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/lib/drone_control/main.cpp
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/package_run_dependencies/drone_control
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/parent_prefix_path/drone_control
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/path.sh
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/environment/path.dsv
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.bash
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.sh
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.zsh
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/local_setup.dsv
+-- Symlinking: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/package.dsv
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/ament_index/resource_index/packages/drone_control
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/cmake/drone_controlConfig.cmake
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/cmake/drone_controlConfig-version.cmake
+-- Up-to-date symlink: /home/khuluq/hayago_ws/install/drone_control/share/drone_control/package.xml

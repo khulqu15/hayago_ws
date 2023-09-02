@@ -1,0 +1,52 @@
+[0.058s] Invoking command in '/home/khuluq/hayago_ws/build/drone_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake /home/khuluq/hayago_ws/src/drone_control -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/khuluq/hayago_ws/install/drone_control
+[0.361s] -- The C compiler identification is GNU 9.4.0
+[0.611s] -- The CXX compiler identification is GNU 9.4.0
+[0.631s] -- Check for working C compiler: /usr/lib/ccache/cc
+[0.866s] -- Check for working C compiler: /usr/lib/ccache/cc -- works
+[0.873s] -- Detecting C compiler ABI info
+[1.186s] -- Detecting C compiler ABI info - done
+[1.240s] -- Detecting C compile features
+[1.241s] -- Detecting C compile features - done
+[1.254s] -- Check for working CXX compiler: /usr/lib/ccache/c++
+[1.627s] -- Check for working CXX compiler: /usr/lib/ccache/c++ -- works
+[1.631s] -- Detecting CXX compiler ABI info
+[1.992s] -- Detecting CXX compiler ABI info - done
+[2.065s] -- Detecting CXX compile features
+[2.066s] -- Detecting CXX compile features - done
+[2.077s] -- Found ament_cmake: 0.9.11 (/opt/ros/foxy/share/ament_cmake/cmake)
+[2.189s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+[2.190s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[3.031s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[3.127s] -- Found rclcpp: 2.4.2 (/opt/ros/foxy/share/rclcpp/cmake)
+[3.300s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.323s] -- Found rosidl_adapter: 1.3.0 (/opt/ros/foxy/share/rosidl_adapter/cmake)
+[3.656s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+[3.743s] -- Found FastRTPS: /opt/ros/foxy/include  
+[4.031s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.225s] -- Found rmw_implementation_cmake: 1.0.4 (/opt/ros/foxy/share/rmw_implementation_cmake/cmake)
+[4.231s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[4.233s] -- Looking for pthread.h
+[4.385s] -- Looking for pthread.h - found
+[4.386s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[4.582s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+[4.582s] -- Looking for pthread_create in pthreads
+[4.753s] -- Looking for pthread_create in pthreads - not found
+[4.753s] -- Looking for pthread_create in pthread
+[4.986s] -- Looking for pthread_create in pthread - found
+[4.990s] -- Found Threads: TRUE  
+[5.405s] -- Found sensor_msgs: 2.0.5 (/opt/ros/foxy/share/sensor_msgs/cmake)
+[5.660s] -- Found mavros_msgs: 2.4.0 (/home/khuluq/ros2_ws/install/mavros_msgs/share/mavros_msgs/cmake)
+[6.851s] -- Found tf2_geometry_msgs: 0.13.14 (/opt/ros/foxy/share/tf2_geometry_msgs/cmake)
+[6.892s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/foxy/share/eigen3_cmake_module/cmake)
+[6.905s] -- Found Eigen3: TRUE (found version "3.3.7") 
+[8.154s] CMake Error at /opt/ros/foxy/share/ament_cmake_core/cmake/symlink_install/ament_cmake_symlink_install_targets.cmake:67 (message):
+[8.155s]   ament_cmake_symlink_install_targets() 'DIRECTORY' is not a target
+[8.155s] Call Stack (most recent call first):
+[8.155s]   /opt/ros/foxy/share/ament_cmake_core/cmake/symlink_install/install.cmake:37 (ament_cmake_symlink_install_targets)
+[8.156s]   CMakeLists.txt:29 (install)
+[8.156s] 
+[8.156s] 
+[8.161s] -- Configuring incomplete, errors occurred!
+[8.161s] See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeOutput.log".
+[8.162s] See also "/home/khuluq/hayago_ws/build/drone_control/CMakeFiles/CMakeError.log".
+[8.206s] Invoked command in '/home/khuluq/hayago_ws/build/drone_control' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/khuluq/drone_delivery_ws/install/delivery:/opt/ros/foxy /usr/bin/cmake /home/khuluq/hayago_ws/src/drone_control -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/khuluq/hayago_ws/install/drone_control

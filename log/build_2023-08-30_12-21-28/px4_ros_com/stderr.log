@@ -1,0 +1,17 @@
+/home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp: In lambda function:
+/home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:60:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘latitude_deg’
+   60 |    std::cout << "lat: " << msg->latitude_deg  << std::endl;
+      |                                 ^~~~~~~~~~~~
+/home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:61:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘longitude_deg’
+   61 |    std::cout << "lon: " << msg->longitude_deg << std::endl;
+      |                                 ^~~~~~~~~~~~~
+/home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:62:33: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘altitude_msl_m’
+   62 |    std::cout << "alt: " << msg->altitude_msl_m  << std::endl;
+      |                                 ^~~~~~~~~~~~~~
+/home/khuluq/hayago_ws/src/px4_ros_com/src/examples/listeners/vehicle_gps_position_listener.cpp:63:43: error: ‘struct px4_msgs::msg::SensorGps_<std::allocator<void> >’ has no member named ‘altitude_ellipsoid_m’; did you mean ‘alt_ellipsoid’?
+   63 |    std::cout << "alt_ellipsoid: " << msg->altitude_ellipsoid_m << std::endl;
+      |                                           ^~~~~~~~~~~~~~~~~~~~
+      |                                           alt_ellipsoid
+make[2]: *** [CMakeFiles/vehicle_gps_position_listener.dir/build.make:63: CMakeFiles/vehicle_gps_position_listener.dir/src/examples/listeners/vehicle_gps_position_listener.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:140: CMakeFiles/vehicle_gps_position_listener.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

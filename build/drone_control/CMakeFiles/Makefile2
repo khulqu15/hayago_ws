@@ -53,7 +53,7 @@ CMAKE_BINARY_DIR = /home/khuluq/hayago_ws/build/drone_control
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all:
+all: CMakeFiles/drone_node.dir/all
 
 .PHONY : all
 
@@ -63,10 +63,38 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/drone_node.dir/clean
 clean: CMakeFiles/drone_control_uninstall.dir/clean
 clean: CMakeFiles/uninstall.dir/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/drone_node.dir
+
+# All Build rule for target.
+CMakeFiles/drone_node.dir/all:
+	$(MAKE) -f CMakeFiles/drone_node.dir/build.make CMakeFiles/drone_node.dir/depend
+	$(MAKE) -f CMakeFiles/drone_node.dir/build.make CMakeFiles/drone_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/khuluq/hayago_ws/build/drone_control/CMakeFiles --progress-num=1,2 "Built target drone_node"
+.PHONY : CMakeFiles/drone_node.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/drone_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/khuluq/hayago_ws/build/drone_control/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/drone_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/khuluq/hayago_ws/build/drone_control/CMakeFiles 0
+.PHONY : CMakeFiles/drone_node.dir/rule
+
+# Convenience name for target.
+drone_node: CMakeFiles/drone_node.dir/rule
+
+.PHONY : drone_node
+
+# clean rule for target.
+CMakeFiles/drone_node.dir/clean:
+	$(MAKE) -f CMakeFiles/drone_node.dir/build.make CMakeFiles/drone_node.dir/clean
+.PHONY : CMakeFiles/drone_node.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/drone_control_uninstall.dir

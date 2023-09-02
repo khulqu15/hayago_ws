@@ -1,2 +1,1 @@
-source;share/drone_control/environment/ament_prefix_path.sh
-source;share/drone_control/environment/path.sh
+/home/khuluq/hayago_ws/build/drone_control/ament_cmake_environment_hooks/local_setup.dsv
