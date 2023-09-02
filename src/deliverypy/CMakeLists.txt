@@ -18,7 +18,13 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
+find_package(mavros_msgs REQUIRED)
+
+add_executable(indoor_hovering src/indoor_hovering.cpp)
+ament_target_dependencies(indoor_hovering rclcpp px4_msgs)
+install(TARGETS indoor_hovering DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

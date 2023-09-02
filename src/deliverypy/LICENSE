@@ -1,0 +1,45 @@
+HAYAGO DRONE DELIVERY SOFTWARE LICENSE AGREEMENT FOR ROS 2 FOXY
+
+Version 1.0 - September 2, 2023
+
+1. DEFINITIONS
+
+"Software" refers to the "Hayago Drone Delivery" application designed to function with ROS 2 Foxy.
+"Licensee" refers to the individual or entity that has been granted the license to use the Software under this Agreement.
+"Licensor" refers to the creators and owners of the "Hayago Drone Delivery" Software.
+
+2. GRANT OF LICENSE
+
+Subject to the terms and conditions of this Agreement, Licensor grants to Licensee a non-exclusive, non-transferable license to use the Software on any system that Licensee owns or controls.
+
+3. RESTRICTIONS
+
+Unless expressly permitted in this Agreement, Licensee may not:
+
+Distribute, sublicense, transfer, or lend the Software to a third party.
+Modify, adapt, or create derivative works from the Software.
+Reverse engineer, decompile, or disassemble the Software.
+4. OWNERSHIP
+
+The Software is protected by copyright and other intellectual property laws. Licensor retains all rights, title, and interest in and to the Software, including all intellectual property rights therein.
+
+5. TERMINATION
+
+This license is effective until terminated. Licensee's rights under this Agreement will terminate automatically if Licensee breaches any of its terms. Upon termination, Licensee shall cease all use and destroy or return all copies of the Software.
+
+6. DISCLAIMER OF WARRANTIES
+
+The Software is provided "AS IS" without any warranties of any kind, either express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
+
+7. LIMITATION OF LIABILITY
+
+Licensor shall not be liable for any damages, including but not limited to, lost profits, lost savings, or other incidental or consequential damages arising from the use or inability to use the Software.
+
+8. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the laws of Surabaya/Indonesia. Any disputes arising under or in connection with this Agreement shall be subject to the exclusive jurisdiction of the courts of Surabaya/Indonesia.
+
+1. ENTIRE AGREEMENT
+
+This Agreement contains the entire agreement between the parties relating to the subject matter hereof and supersedes all prior and contemporaneous written or oral agreements.
+
