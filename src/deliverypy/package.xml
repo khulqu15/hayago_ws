@@ -4,8 +4,8 @@
   <name>deliverypy</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="=">khuluq</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="ninno@hayago.id">ninno@hayago.id</maintainer>
+  <license>HAYAGO LICENSE</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
