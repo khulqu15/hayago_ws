@@ -46,61 +46,73 @@ class HAYAGOControl: public rclcpp::Node
 
         void arm() 
         {
+            std::cout << "ARMING" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
         }
 
         void takeoff()
         {
+            std::cout << "TAKEOFF" << std::endl;
             trajectory_publisher_->publish(takeoff_setpoint_);
         }
 
         void hover()
         {
+            std::cout << "HOVER" << std::endl;
             trajectory_publisher_->publish(hover_setpoint_);
         }
 
         void land() 
         {
+            std::cout << "LAND" << std::endl;
             trajectory_publisher_->publish(landing_setpoint_);
         }
 
         void setModeMANUAL() 
         {
+            std::cout << "SET MANUAL MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 1);
         }
         
         void setModeGUIDED()
         {
+            std::cout << "SET GUIDED MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 4);
         }
 
         void setModeACRO() 
         {
+            std::cout << "SET ACRO MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 5);
         }
 
         void setModeSTABILIZED()
         {
+            std::cout << "SET STABILIZED MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 8);
         }
 
         void setModeTAKEOFF()
         {
+            std::cout << "SET TAKEOFF MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 10);
         }
 
         void setModeLAND()
         {
+            std::cout << "SET LAND MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 11);
         }
 
         void setModeRTL()
         {
+            std::cout << "SET RTL MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 12);
         }
         
         void setModeRTGS()
         {
+            std::cout << "SET RTGS MODE" << std::endl;
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 13);
         }
 
@@ -129,6 +141,7 @@ class HAYAGOControl: public rclcpp::Node
 
 int main(int argc, char *argv[])
 {
+    std::cout << "HAYAGO INDOOR HOVERING" << std::endl;
     rclcpp::init(argc, argv);
     auto node = std::make_shared<HAYAGOControl>();
 

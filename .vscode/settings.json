@@ -73,6 +73,7 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "files.associations": {
-    "future": "cpp"
+    "future": "cpp",
+    "ostream": "cpp"
   }
 }
