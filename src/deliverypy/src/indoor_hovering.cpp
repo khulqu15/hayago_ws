@@ -74,7 +74,7 @@ class HAYAGOControl: public rclcpp::Node
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 4);
         }
 
-        void setModeMANUAL() 
+        void setModeACRO() 
         {
             sendVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 5);
         }
