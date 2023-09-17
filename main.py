@@ -8,7 +8,7 @@ baudrate = int(input("Choose baudrate: ") or 0)
 
 print("Force Connect ?")
 print("[Y] / [N]")
-is_force = input("Plotting Diagram ? [Y/N] : ") or "Y"
+is_force = input("Force Connect ? [Y/N] : ") or "Y"
 if is_force.lower() == 'y': force = True
 else: force = False
 
@@ -18,6 +18,7 @@ baudrates = [
 ]
 
 vehicle = dronekit.connect("/dev/ttyUSB0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
+vehicle.wait_ready(True, raise_exception=False)
 
 def arm_and_takeoff(target_altitude):
     print("Prearm Check")
