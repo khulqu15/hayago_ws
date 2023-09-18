@@ -73,12 +73,12 @@ def firebase_listener():
         time.sleep(5)
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
-        set_servo(1, 1500)
+        set_servo(9, 1500)
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
-        set_servo(2, 1000)
+        set_servo(10, 1000)
         time.sleep(1)
-        set_servo(3, 2000)
+        set_servo(11, 1000)
         time.sleep(1)
     elif action == "land":
         print("Landing...")
