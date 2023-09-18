@@ -1,3 +1,4 @@
+import pyrebase
 import dronekit
 import time
 from pymavlink import mavutil
@@ -16,6 +17,17 @@ baudrates = [
     57600,
     115200,
 ]
+
+config = {
+    "apiKey": "YOUR_API_KEY",
+    "authDomain": "YOUR_AUTH_DOMAIN",
+    "databaseURL": "YOUR_DATABASE_URL",
+    "storageBucket": "YOUR_STORAGE_BUCKET"
+}
+
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+
 
 try:
     vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
@@ -60,23 +72,49 @@ def set_servo(number, pwm):
     )
     vehicle.send_mavlink(msg)
     vehicle.flush()
-        
-arm_and_takeoff(2)
 
-print("Hovering for 10 seconds...")
-time.sleep(5)
+def firebase_listener():
+    action = db.child("commands").child("action").get().val()
 
-print("Lowering Payload")
-set_servo(1, 1500)
-print("Control servo aux")
-set_servo(2, 1000)
-set_servo(3, 2000)
-time.sleep(1)
+    if action == "takeoff":
+        arm_and_takeoff(1)
+    elif action == "hover":
+        print("Hovering for 10 seconds...")
+        time.sleep(10)
+    elif action == "lower_payload":
+        print("Lowering payload on winch (katrol)...")
+        set_servo(1, 1500)
+    elif action == "control_servos":
+        print("Controlling servos on AUX2 and AUX3...")
+        set_servo(2, 1000)
+        time.sleep(1)
+        set_servo(3, 2000)
+        time.sleep(1)
+    elif action == "land":
+        print("Landing...")
+        vehicle.mode = dronekit.VehicleMode("LAND")
 
-print("Landing")
-vehicle.mode = dronekit.VehicleMode("LAND")
-while vehicle.armed:
-    print("Waiting for landing...")
-    time.sleep(1)
-print("Disarmed. Mission completed!")
-vehicle.close()
+# arm_and_takeoff(2)
+
+# print("Hovering for 10 seconds...")
+# time.sleep(5)
+
+# print("Lowering Payload")
+# set_servo(1, 1500)
+# print("Control servo aux")
+# set_servo(2, 1000)
+# set_servo(3, 2000)
+# time.sleep(1)
+
+# print("Landing")
+# vehicle.mode = dronekit.VehicleMode("LAND")
+# while vehicle.armed:
+#     print("Waiting for landing...")
+#     time.sleep(1)
+# print("Disarmed. Mission completed!")
+# vehicle.close()
+
+if __name__ == '__main__':
+    while True:
+        firebase_listener()
+        time.sleep(5)
