@@ -29,7 +29,7 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
 try:
-    vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
+    vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout=60)
     print("Success Connected")
 except dronekit.TimeoutError:
     print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
@@ -39,17 +39,17 @@ def arm_and_takeoff(target_altitude):
     time.sleep(1)
     
     print("Prearm Check")
-    # while not vehicle.is_armable:
-    #     print("Waiting for ready")
-    #     time.sleep(1)
+    while not vehicle.is_armable:
+        print("Waiting for ready")
+        time.sleep(1)
         
     print("Arming motor")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
     vehicle.armed = True
     
-    # while not vehicle.armed:
-    #     print("Waiting for arming")
-    #     time.sleep(1)
+    while not vehicle.armed:
+        print("Waiting for arming")
+        time.sleep(1)
     
     print("Taking Off")
     vehicle.simple_takeoff(target_altitude)
@@ -60,6 +60,13 @@ def arm_and_takeoff(target_altitude):
             print("Reached target altitude")
             break
         time.sleep(1)
+    db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+    time.sleep(5)
+    db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
+    time.sleep(2)
+    db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
+    time.sleep(5)
+    db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         
 def set_servo(number, pwm):
     msg = vehicle.message_factory.command_long_encode(
@@ -93,6 +100,7 @@ def firebase_listener():
     elif action == "land":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
+        db.child("app").child("copters").child("0").child("commands").child("action").set("")
 
 # arm_and_takeoff(2)
 
