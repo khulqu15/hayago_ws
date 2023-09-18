@@ -19,10 +19,10 @@ baudrates = [
 ]
 
 config = {
-    "apiKey": "YOUR_API_KEY",
-    "authDomain": "YOUR_AUTH_DOMAIN",
-    "databaseURL": "YOUR_DATABASE_URL",
-    "storageBucket": "YOUR_STORAGE_BUCKET"
+    "apiKey": "AIzaSyBi8dJvahsGnlEJxt2XW9CbCVCZ_F8QbIA",
+    "authDomain": "eco-enzym.firebaseapp.com",
+    "databaseURL": "https://eco-enzym-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "storageBucket": "eco-enzym.appspot.com"
 }
 
 firebase = pyrebase.initialize_app(config)
