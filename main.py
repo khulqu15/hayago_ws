@@ -114,7 +114,7 @@ def firebase_listener():
 # print("Disarmed. Mission completed!")
 # vehicle.close()
 
-if __name__ == '__main__':
-    while True:
-        firebase_listener()
-        time.sleep(5)
+while True:
+    print("Waiting for commands...")
+    firebase_listener()
+    time.sleep(5)
