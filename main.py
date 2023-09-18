@@ -26,7 +26,6 @@ def arm_and_takeoff(target_altitude):
         time.sleep(1)
         
     print("Arming motor")
-    # vehicle.mode = dronekit.VehicleMode("STABILIZE")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
     vehicle.armed = True
     
@@ -46,12 +45,12 @@ def arm_and_takeoff(target_altitude):
         
 def set_servo(number, pwm):
     msg = vehicle.message_factory.command_long_encode(
-        0,0,
+        0, 0,
         mavutil.mavlink.MAV_CMD_DO_SET_SERVO,
-        0,
+        1,
         number,
         pwm,
-        0,0,0,0,0
+        0, 0, 0, 0, 0
     )
     vehicle.send_mavlink(msg)
     vehicle.flush()
