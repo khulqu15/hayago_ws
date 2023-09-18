@@ -3,21 +3,6 @@ import dronekit
 import time
 from pymavlink import mavutil
 
-print("[0] 57600")
-print("[1] 115200")
-baudrate = int(input("Choose baudrate: ") or 0)
-
-force_connect = input("Force Connect? [Y/N] : ")
-if force_connect.upper() == 'Y':
-    is_force = False
-else:
-    is_force = True
-
-baudrates = [
-    57600,
-    115200,
-]
-
 config = {
     "apiKey": "AIzaSyBi8dJvahsGnlEJxt2XW9CbCVCZ_F8QbIA",
     "authDomain": "eco-enzym.firebaseapp.com",
