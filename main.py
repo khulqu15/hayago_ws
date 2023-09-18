@@ -20,19 +20,19 @@ def arm_and_takeoff(target_altitude):
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     
-    # print("Prearm Check")
-    # while not vehicle.is_armable:
-    #     print("Waiting for ready")
-    #     time.sleep(1)
+    print("Prearm Check")
+    while not vehicle.is_armable:
+        print("Waiting for ready")
+        time.sleep(1)
         
     print("Arming motor")
     # vehicle.mode = dronekit.VehicleMode("STABILIZE")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
     vehicle.armed = True
     
-    # while not vehicle.armed:
-    #     print("Waiting for arming")
-    #     time.sleep(1)
+    while not vehicle.armed:
+        print("Waiting for arming")
+        time.sleep(1)
     
     print("Taking Off")
     vehicle.simple_takeoff(target_altitude)
@@ -43,13 +43,6 @@ def arm_and_takeoff(target_altitude):
             print("Reached target altitude")
             break
         time.sleep(1)
-    db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
-    time.sleep(5)
-    db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
-    time.sleep(5)
-    db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
-    time.sleep(5)
-    db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         
 def set_servo(number, pwm):
     msg = vehicle.message_factory.command_long_encode(
@@ -77,20 +70,30 @@ def firebase_listener():
     print(action)
     if action == "takeoff":
         arm_and_takeoff(1)
+        time.sleep(7)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+   
     elif action == "hover":
-        print("Hovering for 10 seconds...")
-        time.sleep(2)
+        print("Hovering for 7 seconds...")
+        time.sleep(7)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
+        
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
         set_winch_pwm(2200)
+        time.sleep(7)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         # set_servo(9, 1500)
+        
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
         # set_servo(10, 1000)
         set_servo_6_pwm(2200)
         set_servo_7_pwm(2200)
         # set_servo(11, 1000)
-        time.sleep(5)
+        time.sleep(7)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
+        
     elif action == "land":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
