@@ -20,18 +20,21 @@ except dronekit.TimeoutError:
     print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
 
 def arm_and_takeoff(target_altitude):
-    print("Prearm Check")
-    while not vehicle.is_armable:
-        print("Waiting for ready")
-        time.sleep(1)
+    vehicle.parameters['ARMING_CHECK'] = 0
+    time.sleep(1)
+    
+    # print("Prearm Check")
+    # while not vehicle.is_armable:
+    #     print("Waiting for ready")
+    #     time.sleep(1)
         
     print("Arming motor")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
     vehicle.armed = True
     
-    while not vehicle.armed:
-        print("Waiting for arming")
-        time.sleep(1)
+    # while not vehicle.armed:
+    #     print("Waiting for arming")
+    #     time.sleep(1)
     
     print("Taking Off")
     vehicle.simple_takeoff(target_altitude)
@@ -42,7 +45,6 @@ def arm_and_takeoff(target_altitude):
             print("Reached target altitude")
             break
         time.sleep(1)
-        
     db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
     time.sleep(5)
     db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
@@ -67,7 +69,7 @@ def firebase_listener():
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     print(action)
     if action == "takeoff":
-        arm_and_takeoff(1)
+        arm_and_takeoff(1.5)
     elif action == "hover":
         print("Hovering for 10 seconds...")
         time.sleep(10)
