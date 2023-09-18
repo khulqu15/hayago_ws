@@ -83,14 +83,17 @@ def firebase_listener():
         set_winch_pwm(2200)
         time.sleep(5)
         db.child("app").child("copters").child("0").child("commands").child("action").set("land")
-        # set_servo(9, 1500)
+        set_servo(9, 1500)
+        set_servo(5, 1500)
         
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
-        # set_servo(10, 1000)
+        set_servo(10, 1000)
+        set_servo(6, 1000)
         set_servo_6_pwm(2200)
         set_servo_7_pwm(2200)
-        # set_servo(11, 1000)
+        set_servo(11, 1000)
+        set_servo(7, 1000)
         time.sleep(5)
         db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
         
