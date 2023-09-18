@@ -28,9 +28,9 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-
 try:
     vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
+    print("Success Connected")
 except dronekit.TimeoutError:
     print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
 
