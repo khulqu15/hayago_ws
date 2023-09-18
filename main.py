@@ -74,7 +74,7 @@ def set_servo(number, pwm):
     vehicle.flush()
 
 def firebase_listener():
-    action = db.child("commands").child("action").get().val()
+    action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     print(action)
     if action == "takeoff":
         arm_and_takeoff(1)
