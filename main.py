@@ -13,11 +13,8 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-try:
-    vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout=60)
-    print("Success Connected")
-except dronekit.TimeoutError:
-    print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
+vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout=60)
+print("Success Connected")
 
 def arm_and_takeoff(target_altitude):
     vehicle.parameters['ARMING_CHECK'] = 0
