@@ -56,15 +56,6 @@ def set_servo(number, pwm):
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
-def set_winch_pwm(pwm_value):
-    vehicle.channels.overrides['5'] = pwm_value
-
-def set_servo_6_pwm(pwm_value):
-    vehicle.channels.overrides['6'] = pwm_value
-
-def set_servo_7_pwm(pwm_value):
-    vehicle.channels.overrides['7'] = pwm_value
-
 def firebase_listener():
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     print(action)
@@ -80,21 +71,20 @@ def firebase_listener():
         
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
-        set_winch_pwm(2200)
-        time.sleep(5)
+        set_servo(9, 1100)
+        time.sleep(10)
+        set_servo(9, 2200)
+        time.sleep(8)
         db.child("app").child("copters").child("0").child("commands").child("action").set("land")
-        set_servo(9, 1500)
-        set_servo(5, 1500)
         
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
-        set_servo(10, 1000)
-        set_servo(6, 1000)
-        set_servo_6_pwm(2200)
-        set_servo_7_pwm(2200)
-        set_servo(11, 1000)
-        set_servo(7, 1000)
-        time.sleep(5)
+        set_servo(10, 1100)
+        set_servo(11, 1100)
+        time.sleep(3)
+        set_servo(10, 1300)
+        set_servo(6, 1300)
+        time.sleep(3)
         db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
         
     elif action == "land":
