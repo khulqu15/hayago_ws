@@ -23,6 +23,9 @@ except dronekit.TimeoutError:
     print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
 
 def arm_and_takeoff(target_altitude):
+    vehicle.parameters['ARMING_CHECK'] = 0
+    time.sleep(1)
+    
     print("Prearm Check")
     while not vehicle.is_armable:
         print("Waiting for ready")
