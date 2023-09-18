@@ -70,7 +70,7 @@ def firebase_listener():
         arm_and_takeoff(1.5)
     elif action == "hover":
         print("Hovering for 10 seconds...")
-        time.sleep(10)
+        time.sleep(5)
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
         set_servo(1, 1500)
