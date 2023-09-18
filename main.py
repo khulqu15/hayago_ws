@@ -75,7 +75,7 @@ def set_servo(number, pwm):
 
 def firebase_listener():
     action = db.child("commands").child("action").get().val()
-
+    print(action)
     if action == "takeoff":
         arm_and_takeoff(1)
     elif action == "hover":
