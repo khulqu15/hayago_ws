@@ -58,7 +58,7 @@ def set_servo(number, pwm):
         0,
         number,
         pwm,
-        0,0,0,0.0
+        0,0,0,0,0
     )
     vehicle.send_mavlink(msg)
     vehicle.flush()
