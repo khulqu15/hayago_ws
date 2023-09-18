@@ -63,6 +63,15 @@ def set_servo(number, pwm):
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
+def set_winch_pwm(pwm_value):
+    vehicle.channels.overrides['5'] = pwm_value
+
+def set_servo_6_pwm(pwm_value):
+    vehicle.channels.overrides['6'] = pwm_value
+
+def set_servo_7_pwm(pwm_value):
+    vehicle.channels.overrides['7'] = pwm_value
+
 def firebase_listener():
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     print(action)
@@ -73,16 +82,21 @@ def firebase_listener():
         time.sleep(5)
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
+        set_winch_pwm(1500)
         set_servo(9, 1500)
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
         set_servo(10, 1000)
+        set_servo_6_pwm(1000)
         time.sleep(1)
+        set_servo_7_pwm(1000)
         set_servo(11, 1000)
         time.sleep(1)
     elif action == "land":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
+        vehicle.channels.overrides = {}
+        vehicle.close()
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
 
 # arm_and_takeoff(2)
