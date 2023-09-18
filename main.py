@@ -26,7 +26,8 @@ def arm_and_takeoff(target_altitude):
     #     time.sleep(1)
         
     print("Arming motor")
-    vehicle.mode = dronekit.VehicleMode("STABILIZE")
+    # vehicle.mode = dronekit.VehicleMode("STABILIZE")
+    vehicle.mode = dronekit.VehicleMode("GUIDED")
     vehicle.armed = True
     
     # while not vehicle.armed:
