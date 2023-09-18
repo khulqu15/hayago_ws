@@ -6,19 +6,21 @@ print("[0] 57600")
 print("[1] 115200")
 baudrate = int(input("Choose baudrate: ") or 0)
 
-print("Force Connect ?")
-print("[Y] / [N]")
-is_force = input("Force Connect ? [Y/N] : ") or "Y"
-if is_force.lower() == 'y': force = True
-else: force = False
+force_connect = input("Force Connect? [Y/N] : ")
+if force_connect.upper() == 'Y':
+    is_force = False
+else:
+    is_force = True
 
 baudrates = [
     57600,
     115200,
 ]
 
-vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
-vehicle.wait_ready(True, raise_exception=False)
+try:
+    vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
+except dronekit.TimeoutError:
+    print("Failed to connect after 60 seconds. Try forcing the connection or check the drone's status.")
 
 def arm_and_takeoff(target_altitude):
     print("Prearm Check")
