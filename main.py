@@ -17,7 +17,7 @@ baudrates = [
     115200,
 ]
 
-vehicle = dronekit.connect("/dev/ttyUSB0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
+vehicle = dronekit.connect("/dev/ttyACM0", baud=baudrates[baudrate], wait_ready=is_force, timeout=60)
 vehicle.wait_ready(True, raise_exception=False)
 
 def arm_and_takeoff(target_altitude):
