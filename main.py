@@ -73,9 +73,10 @@ def firebase_listener():
         print("Lowering payload on winch (katrol)...")
         set_servo(9, 1100)
         time.sleep(10)
+        print("Gat back payload on winch (katrol)...")
         set_servo(9, 2200)
         time.sleep(8)
-        db.child("app").child("copters").child("0").child("commands").child("action").set("land")
+        # db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         
     elif action == "control_servos":
         print("Controlling servos on AUX2 and AUX3...")
