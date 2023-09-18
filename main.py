@@ -70,18 +70,18 @@ def firebase_listener():
     print(action)
     if action == "takeoff":
         arm_and_takeoff(1)
-        time.sleep(7)
+        time.sleep(2)
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
    
     elif action == "hover":
-        print("Hovering for 7 seconds...")
-        time.sleep(7)
+        print("Hovering for 5 seconds...")
+        time.sleep(5)
         db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
         
     elif action == "lower_payload":
         print("Lowering payload on winch (katrol)...")
         set_winch_pwm(2200)
-        time.sleep(7)
+        time.sleep(5)
         db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         # set_servo(9, 1500)
         
@@ -91,7 +91,7 @@ def firebase_listener():
         set_servo_6_pwm(2200)
         set_servo_7_pwm(2200)
         # set_servo(11, 1000)
-        time.sleep(7)
+        time.sleep(5)
         db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
         
     elif action == "land":
