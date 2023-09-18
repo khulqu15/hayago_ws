@@ -73,7 +73,7 @@ def firebase_listener():
         set_servo(9, 1100)
         time.sleep(5)
         print("Gat back payload on winch (katrol)...")
-        set_servo(9, 4000)
+        set_servo(9, 1900)
         time.sleep(5)
         # db.child("app").child("copters").child("0").child("commands").child("action").set("land")
         
