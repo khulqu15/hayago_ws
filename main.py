@@ -13,6 +13,9 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
+def end_drone():
+    db.child("app").child("copters").child("0").child("actived").set(False)
+
 vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout=60)
 print("Success Connected")
 
@@ -127,9 +130,28 @@ def firebase_listener():
         except Exception as e:
             print(f"Error changing mode: {e}")
         
-while True:
-    print("Waiting for commands...")
-    firebase_listener()
-    time.sleep(5)
-    update_location_to_firebase()
-    update_battery_to_firebase()
+try:
+    db.child("app").child("copters").child("0").child("actived").set(True)
+    connected = db.child("app").child("0").child("connected").get().val()
+    if connected:
+        while True:
+            print("Waiting for commands...")
+            firebase_listener()
+            time.sleep(5)
+            update_location_to_firebase()
+            update_battery_to_firebase()
+    else:
+        print("Drone is not connected")
+        exit()
+        
+except Exception as e:
+    print("An error occurred:", str(e))
+    end_drone()
+    
+finally:
+    if vehicle:
+        end_drone()
+    else:
+        print("Drone is not available")
+        exit()
+        
