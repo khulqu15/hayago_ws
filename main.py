@@ -45,6 +45,7 @@ def arm_and_takeoff(target_altitude):
     vehicle.simple_takeoff(target)
     
     while True:
+        update_location_to_firebase()
         print(" Altitude: ", vehicle.location.global_relative_frame.alt)
         if vehicle.location.global_relative_frame.alt >= target * 0.95:
             print("Reached target altitude")
