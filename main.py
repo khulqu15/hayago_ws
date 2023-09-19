@@ -54,66 +54,76 @@ def set_servo(number, pwm):
     )
     vehicle.send_mavlink(msg)
     vehicle.flush()
+    
+    
+def update_location_to_firebase():
+    latitude = vehicle.location.global_relative_frame.lat
+    longitude = vehicle.location.global_relative_frame.lon
+    altitude = vehicle.location.global_relative_frame.alt
+
+    db.child("app").child("copters").child("0").child("latitude").set(latitude)
+    db.child("app").child("copters").child("0").child("longitude").set(longitude)
+    db.child("app").child("copters").child("0").child("altitude").set(altitude)
+    
+    print(f"Location updated: Lat={latitude}, Lon={longitude}, Alt={altitude}")
+
+def update_battery_to_firebase():
+    if vehicle.battery:
+        battery_percent = vehicle.battery.level
+        db.child("app").child("copters").child("0").child("battery").set(battery_percent)
+        print(f"Battery updated: {battery_percent}%")
+    else:
+        print("Cannot get battery info.")
 
 def firebase_listener():
+    update_location_to_firebase()
+    update_battery_to_firebase()
+
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
+    takeoff_alt = db.child("app").child("copters").child("0").child("commands").child("takeoff_alt").get().val()
+    time_load = db.child("app").child("copters").child("0").child("commands").child("load_time").get().val()
+    
+    mode = db.child("app").child("copters").child("0").child("commands").child("mode").get().val()
+    print(f"Mode from Firebase: {mode}")
+    if mode and mode != vehicle.mode.name:
+        try:
+            vehicle.mode = dronekit.VehicleMode(mode)
+            print(f"Changed mode to {mode}")
+        except Exception as e:
+            print(f"Error changing mode: {e}")
+    
     print(action)
     if action == "takeoff":
-        arm_and_takeoff(1)
+        arm_and_takeoff(takeoff_alt)
         time.sleep(2)
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
    
     elif action == "hover":
-        print("Hovering for 5 seconds...")
-        time.sleep(5)
-        db.child("app").child("copters").child("0").child("commands").child("action").set("control_servos")
+        print("Hovering...")
         
-    elif action == "lower_payload":
-        print("Lowering payload on winch (katrol)...")
+    elif action == "lift_load":
+        print("Toggle Payload...")
         set_servo(9, 1100)
-        time.sleep(5)
-        print("Gat back payload on winch (katrol)...")
-        set_servo(9, 1900)
-        time.sleep(5)
-        # db.child("app").child("copters").child("0").child("commands").child("action").set("land")
-        
-    elif action == "control_servos":
-        print("Controlling servos on AUX2 and AUX3...")
         set_servo(10, 1100)
         set_servo(11, 1100)
-        time.sleep(3)
+        time.sleep(time_load)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+
+    elif action == "unload":
+        print("Toggle Payload...")
+        set_servo(9, 1900)
         set_servo(10, 1300)
-        set_servo(6, 1300)
-        time.sleep(3)
-        db.child("app").child("copters").child("0").child("commands").child("action").set("lower_payload")
+        set_servo(11, 1300)
+        time.sleep(time_load)
+        db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
         
-    elif action == "land":
+    elif action == "disarm":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
         vehicle.channels.overrides = {}
-        vehicle.close()
+        vehicle.close()    
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
-
-# arm_and_takeoff(2)
-
-# print("Hovering for 10 seconds...")
-# time.sleep(5)
-
-# print("Lowering Payload")
-# set_servo(1, 1500)
-# print("Control servo aux")
-# set_servo(2, 1000)
-# set_servo(3, 2000)
-# time.sleep(1)
-
-# print("Landing")
-# vehicle.mode = dronekit.VehicleMode("LAND")
-# while vehicle.armed:
-#     print("Waiting for landing...")
-#     time.sleep(1)
-# print("Disarmed. Mission completed!")
-# vehicle.close()
-
+        
 while True:
     print("Waiting for commands...")
     firebase_listener()
