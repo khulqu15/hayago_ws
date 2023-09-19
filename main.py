@@ -18,7 +18,7 @@ print("Success Connected")
 
 def arm_and_takeoff(target_altitude):
     vehicle.mode = dronekit.VehicleMode("STABILIZE")
-    db.child("app").child("copters").child("0").child("commands").child("action").set("STABILIZE")
+    db.child("app").child("copters").child("0").child("commands").child("mode").set("STABILIZE")
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     
@@ -29,7 +29,7 @@ def arm_and_takeoff(target_altitude):
         
     print("Arming motor")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
-    db.child("app").child("copters").child("0").child("commands").child("action").set("GUIDED")    
+    db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
     vehicle.armed = True
     
     while not vehicle.armed:
