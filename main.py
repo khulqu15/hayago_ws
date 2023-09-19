@@ -142,7 +142,6 @@ try:
             update_battery_to_firebase()
     else:
         print("Drone is not connected")
-        exit()
         
 except Exception as e:
     print("An error occurred:", str(e))
