@@ -145,12 +145,12 @@ try:
         
 except Exception as e:
     print("An error occurred:", str(e))
-    end_drone()
+    # end_drone()
     
-finally:
-    if vehicle:
-        end_drone()
-    else:
-        print("Drone is not available")
-        exit()
+# finally:
+#     if vehicle:
+#         # end_drone()
+#     else:
+#         print("Drone is not available")
+#         exit()
         
