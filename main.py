@@ -48,6 +48,7 @@ def arm_and_takeoff(target_altitude):
         print(" Altitude: ", vehicle.location.global_relative_frame.alt)
         if vehicle.location.global_relative_frame.alt >= target * 0.95:
             print("Reached target altitude")
+            db.child("app").child("copters").child("0").child("commands").child("response").set("Reached Altitude.")
             break
         time.sleep(1)
         
@@ -84,6 +85,9 @@ def update_battery_to_firebase():
         print("Cannot get battery info.")
 
 def firebase_listener():
+    update_location_to_firebase()
+    update_battery_to_firebase()
+    
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     takeoff_alt = db.child("app").child("copters").child("0").child("commands").child("takeoff_alt").get().val()
     time_load = db.child("app").child("copters").child("0").child("commands").child("load_time").get().val()
@@ -100,25 +104,28 @@ def firebase_listener():
     elif action == "lift_load":
         print("Toggle Payload...")
         set_servo(9, 1100)
-        set_servo(10, 1100)
-        set_servo(11, 1100)
+        set_servo(10, 1000)
+        set_servo(11, 700)
         time.sleep(int(time_load))
+        db.child("app").child("copters").child("0").child("commands").child("response").set("Lift Payload Success.")
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
 
     elif action == "unload":
         print("Toggle Payload...")
         set_servo(9, 1900)
-        set_servo(10, 1300)
-        set_servo(11, 1300)
+        set_servo(10, 800)
+        set_servo(11, 500)
         time.sleep(int(time_load))
+        db.child("app").child("copters").child("0").child("commands").child("response").set("Unload Success.")
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
         
     elif action == "disarm":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
         db.child("app").child("copters").child("0").child("commands").child("mode").set("LAND")
-        vehicle.channels.overrides = {}
-        vehicle.close()    
+        # vehicle.channels.overrides = {}
+        # vehicle.close()    
+        db.child("app").child("copters").child("0").child("commands").child("response").set("Force Land.")
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
         
     mode = db.child("app").child("copters").child("0").child("commands").child("mode").get().val()
@@ -137,14 +144,15 @@ try:
         while True:
             print("Waiting for commands...")
             firebase_listener()
-            time.sleep(5)
-            update_location_to_firebase()
-            update_battery_to_firebase()
+            time.sleep(2)
+
     else:
         print("Drone is not connected")
         
 except Exception as e:
     print("An error occurred:", str(e))
+    vehicle.mode = dronekit.VehicleMode("RTL")
+    db.child("app").child("copters").child("0").child("commands").child("mode").set("RTL")
     # end_drone()
     
 # finally:
