@@ -17,6 +17,7 @@ vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout
 print("Success Connected")
 
 def arm_and_takeoff(target_altitude):
+    vehicle.mode = dronekit.VehicleMode("STABILIZE")
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     
