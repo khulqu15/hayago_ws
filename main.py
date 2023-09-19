@@ -36,12 +36,14 @@ def arm_and_takeoff(target_altitude):
         print("Waiting for arming")
         time.sleep(1)
     
+    target = float(target_altitude)
+    
     print("Taking Off")
-    vehicle.simple_takeoff(target_altitude)
+    vehicle.simple_takeoff(target)
     
     while True:
         print(" Altitude: ", vehicle.location.global_relative_frame.alt)
-        if vehicle.location.global_relative_frame.alt >= target_altitude * 0.95:
+        if vehicle.location.global_relative_frame.alt >= target * 0.95:
             print("Reached target altitude")
             break
         time.sleep(1)
