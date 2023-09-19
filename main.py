@@ -132,7 +132,7 @@ def firebase_listener():
         
 try:
     db.child("app").child("copters").child("0").child("actived").set(True)
-    connected = db.child("app").child("0").child("connected").get().val()
+    connected = db.child("app").child("copters").child("0").child("connected").get().val()
     if connected:
         while True:
             print("Waiting for commands...")
