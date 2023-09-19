@@ -18,6 +18,7 @@ print("Success Connected")
 
 def arm_and_takeoff(target_altitude):
     vehicle.mode = dronekit.VehicleMode("STABILIZE")
+    db.child("app").child("copters").child("0").child("commands").child("action").set("STABILIZE")
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     
@@ -28,6 +29,7 @@ def arm_and_takeoff(target_altitude):
         
     print("Arming motor")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
+    db.child("app").child("copters").child("0").child("commands").child("action").set("GUIDED")    
     vehicle.armed = True
     
     while not vehicle.armed:
@@ -81,15 +83,6 @@ def firebase_listener():
     takeoff_alt = db.child("app").child("copters").child("0").child("commands").child("takeoff_alt").get().val()
     time_load = db.child("app").child("copters").child("0").child("commands").child("load_time").get().val()
     
-    mode = db.child("app").child("copters").child("0").child("commands").child("mode").get().val()
-    print(f"Mode from Firebase: {mode}")
-    if mode and mode != vehicle.mode.name:
-        try:
-            vehicle.mode = dronekit.VehicleMode(mode)
-            print(f"Changed mode to {mode}")
-        except Exception as e:
-            print(f"Error changing mode: {e}")
-    
     print(action)
     if action == "takeoff":
         arm_and_takeoff(takeoff_alt)
@@ -122,10 +115,18 @@ def firebase_listener():
         vehicle.close()    
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
         
+    mode = db.child("app").child("copters").child("0").child("commands").child("mode").get().val()
+    print(f"Mode from Firebase: {mode}")
+    if mode and mode != vehicle.mode.name:
+        try:
+            vehicle.mode = dronekit.VehicleMode(mode)
+            print(f"Changed mode to {mode}")
+        except Exception as e:
+            print(f"Error changing mode: {e}")
+        
 while True:
     print("Waiting for commands...")
     firebase_listener()
     time.sleep(5)
     update_location_to_firebase()
     update_battery_to_firebase()
-    time.sleep(5)
