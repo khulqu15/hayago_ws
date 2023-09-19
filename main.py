@@ -25,19 +25,19 @@ def arm_and_takeoff(target_altitude):
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     
-    print("Prearm Check")
-    while not vehicle.is_armable:
-        print("Waiting for ready")
-        time.sleep(1)
+    # print("Prearm Check")
+    # while not vehicle.is_armable:
+    #     print("Waiting for ready")
+    #     time.sleep(1)
         
     print("Arming motor")
     vehicle.mode = dronekit.VehicleMode("GUIDED")
     db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
     vehicle.armed = True
     
-    while not vehicle.armed:
-        print("Waiting for arming")
-        time.sleep(1)
+    # while not vehicle.armed:
+    #     print("Waiting for arming")
+    #     time.sleep(1)
     
     target = float(target_altitude)
     
