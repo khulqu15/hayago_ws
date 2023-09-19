@@ -75,7 +75,7 @@ def update_location_to_firebase():
 def update_battery_to_firebase():
     if vehicle.battery:
         battery_percent = vehicle.battery.level
-        db.child("app").child("copters").child("0").child("battery").set(battery_percent)
+        db.child("app").child("copters").child("0").child("power").set(battery_percent)
         print(f"Battery updated: {battery_percent}%")
     else:
         print("Cannot get battery info.")
@@ -99,7 +99,7 @@ def firebase_listener():
         set_servo(9, 1100)
         set_servo(10, 1100)
         set_servo(11, 1100)
-        time.sleep(time_load)
+        time.sleep(int(time_load))
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
 
     elif action == "unload":
@@ -107,7 +107,7 @@ def firebase_listener():
         set_servo(9, 1900)
         set_servo(10, 1300)
         set_servo(11, 1300)
-        time.sleep(time_load)
+        time.sleep(int(time_load))
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
         
     elif action == "disarm":
