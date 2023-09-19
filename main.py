@@ -113,6 +113,7 @@ def firebase_listener():
     elif action == "disarm":
         print("Landing...")
         vehicle.mode = dronekit.VehicleMode("LAND")
+        db.child("app").child("copters").child("0").child("commands").child("mode").set("LAND")
         vehicle.channels.overrides = {}
         vehicle.close()    
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
