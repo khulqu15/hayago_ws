@@ -254,12 +254,20 @@ try:
             angular_velocity_prev = {"rollspeed": roll_rate, "pitchspeed": pitch_rate, "yawspeed": yaw_rate}
             if vehicle.mode.name == 'LAND':
                 if vehicle.location.global_relative_frame.alt < 0.2:
-                    time.sleep(3)
+                    time.sleep(1)
                     break
         
         plt.figure(figsize=(15, 10))
+        print("Measured: ")
+        print(comparation_ekf_data_["Measured"].shape)
+        print("Predicted: ")
+        print(comparation_ekf_data_["Predicted"].shape)
         for i in range(18):
             plt.subplot(6, 3, i+1)
+            print("Measured: ")
+            print(comparation_ekf_data_["Measured"][i, :].shape)
+            print("Predicted: ")
+            print(comparation_ekf_data_["Predicted"][i, :].shape)
             plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
             plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
             plt.title(f"State {i+1}")
