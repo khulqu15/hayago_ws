@@ -184,9 +184,9 @@ try:
     if connected:
         
         # INITIAL EKF
-        x0 = np.zeros(17)
+        x0 = np.zeros(18)
         dt = 0.1
-        F = np.eye(12)
+        F = np.eye(18)
         F[0, 6] = F[1, 7] = F[2, 8] = F[3, 9] = F[4, 10] = F[5, 11] = dt
         F[6, 12] = F[7, 13] = F[8, 14] = F[9, 15] = F[10, 16] = F[11, 17] = dt
         H = np.eye(18)
