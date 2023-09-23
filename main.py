@@ -206,7 +206,7 @@ if connected:
     R = np.diag([r_val] * 18)
     p_val = 0.1
     P = np.diag([p_val] * 18)
-    location = get_absolute_location_data()
+    location = get_relative_location_data()
     orientation = get_orientation_data()
     velocity = get_velocity_data()
     x0 = np.array([location.lat, location.lon, location.alt,
@@ -222,22 +222,21 @@ if connected:
     while True:
         time_curr = time.time()
         dt = time_curr - time_prev
-        velocity_curr = get_velocity_data()
+        location_curr = get_relative_location_data()
         orientation_curr = get_orientation_data()
+        velocity_curr = get_velocity_data()
+        # Coordinate Accel
         ax = (velocity_curr[0] - velocity[0]) / dt
         ay = (velocity_curr[1] - velocity[1]) / dt
         az = (velocity_curr[2] - velocity[2]) / dt
+        # Orientation Speed
         roll_rate = (orientation_curr.roll - orientation.roll) / dt
         pitch_rate = (orientation_curr.pitch - orientation.pitch) / dt
         yaw_rate = (orientation_curr.yaw - orientation.yaw) / dt
+        # Orientation Accel
         roll_accel = (roll_rate - angular_velocity_prev["rollspeed"]) / dt
         pitch_accel = (pitch_rate - angular_velocity_prev["pitchspeed"]) / dt
         yaw_accel = (yaw_rate - angular_velocity_prev["yawspeed"]) / dt
-        
-        print("Measured: ")
-        print(comparation_ekf_data_["Measured"].shape)
-        print("Predicted: ")
-        print(comparation_ekf_data_["Predicted"].shape)
         
         extended_kf_.predict()
         z = np.array([
