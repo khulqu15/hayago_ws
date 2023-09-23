@@ -28,7 +28,7 @@ comparation_ekf_data_ = {
 def end_drone():
     db.child("app").child("copters").child("0").child("actived").set(False)
 
-vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=False, timeout=60)
+vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
 print("Success Connected")
 
 def arm_and_takeoff(target_altitude):
