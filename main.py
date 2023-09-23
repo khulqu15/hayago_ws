@@ -57,15 +57,6 @@ def arm_and_takeoff(target_altitude, sliding=False):
     # while not vehicle.is_armable:
     #     print("Waiting for ready")
     #     time.sleep(1)
-        
-    print("Arming motor")
-    vehicle.mode = dronekit.VehicleMode("GUIDED")
-    db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
-    vehicle.armed = True
-    
-    # while not vehicle.armed:
-    #     print("Waiting for arming")
-    #     time.sleep(1)
     
     target = float(target_altitude)
     
@@ -73,6 +64,13 @@ def arm_and_takeoff(target_altitude, sliding=False):
     
     if not sliding:
         vehicle.simple_takeoff(target)
+        print("Arming motor")
+        vehicle.mode = dronekit.VehicleMode("GUIDED")
+        db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
+        vehicle.armed = True
+        # while not vehicle.armed:
+        #     print("Waiting for arming")
+        #     time.sleep(1)
         
         while True:
             print(" Altitude: ", vehicle.location.global_relative_frame.alt)
@@ -85,6 +83,13 @@ def arm_and_takeoff(target_altitude, sliding=False):
             time.sleep(1)
     else:
         vehicle.mode = dronekit.VehicleMode("ACRO")
+        print("Arming motor")
+        db.child("app").child("copters").child("0").child("commands").child("mode").set("ACRO")    
+        vehicle.armed = True
+        # while not vehicle.armed:
+        #     print("Waiting for arming")
+        #     time.sleep(1)
+        
         last_error_roll = 0
         last_error_pitch = 0
         last_error_yaw = 0
