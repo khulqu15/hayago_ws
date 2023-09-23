@@ -24,3 +24,12 @@ class SlidingModeControl:
         u_disc = self.discontinous_control(sliding_surface)
         return u_cont + u_disc
     
+    def takeoff(self, error, derivative_error):
+        sliding_surface = error + self.lambda_ * derivative_error
+        if sliding_surface > self.delta_:
+            control = -self.kD_
+        elif sliding_surface < -self.delta_:
+            control = self.kD_
+        else:
+            control = -self.kD_ * sliding_surface / self.delta_
+        return control

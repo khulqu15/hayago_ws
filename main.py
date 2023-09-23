@@ -47,7 +47,7 @@ def end_drone():
 vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
 print("Success Connected")
 
-def arm_and_takeoff(target_altitude):
+def arm_and_takeoff(target_altitude, sliding=False):
     vehicle.mode = dronekit.VehicleMode("STABILIZE")
     db.child("app").child("copters").child("0").child("commands").child("mode").set("STABILIZE")
     vehicle.parameters['ARMING_CHECK'] = 0
@@ -58,29 +58,70 @@ def arm_and_takeoff(target_altitude):
     #     print("Waiting for ready")
     #     time.sleep(1)
         
-    print("Arming motor")
-    vehicle.mode = dronekit.VehicleMode("GUIDED")
-    db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
-    vehicle.armed = True
-    
-    # while not vehicle.armed:
-    #     print("Waiting for arming")
-    #     time.sleep(1)
-    
-    target = float(target_altitude)
-    
-    print("Taking Off")
-    vehicle.simple_takeoff(target)
-    
-    while True:
-        print(" Altitude: ", vehicle.location.global_relative_frame.alt)
-        if vehicle.location.global_relative_frame.alt >= target * 0.95:
-            print("Reached target altitude")
-            db.child("app").child("copters").child("0").child("commands").child("response").set("Reached Altitude.")
+    if not sliding:
+        print("Arming motor")
+        vehicle.mode = dronekit.VehicleMode("GUIDED")
+        db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
+        vehicle.armed = True
+        
+        # while not vehicle.armed:
+        #     print("Waiting for arming")
+        #     time.sleep(1)
+        
+        target = float(target_altitude)
+        
+        print("Taking Off")
+        vehicle.simple_takeoff(target)
+        
+        while True:
+            print(" Altitude: ", vehicle.location.global_relative_frame.alt)
+            if vehicle.location.global_relative_frame.alt >= target * 0.95:
+                print("Reached target altitude")
+                db.child("app").child("copters").child("0").child("commands").child("response").set("Reached Altitude.")
+                time.sleep(1)
+                db.child("app").child("copters").child("0").child("commands").child("action").set("go_to_target")
+                break
             time.sleep(1)
-            db.child("app").child("copters").child("0").child("commands").child("action").set("go_to_target")
-            break
-        time.sleep(1)
+    else:
+        vehicle.mode = dronekit.VehicleMode("ACRO")
+        last_error_roll = 0
+        last_error_pitch = 0
+        last_error_yaw = 0
+        last_error_alt = 0
+        
+        while True:
+            sliding_takeoff = smc.SlidingModeControl(lambda_, delta_, kD_)
+            error_roll = 0 - vehicle.attitude.roll
+            error_pitch = 0 - vehicle.attitude.pitch
+            error_yaw = 0 - vehicle.attitude.yaw
+            error_alt = target_altitude - vehicle.location.global_relative_frame.alt
+            derivative_error_roll = error_roll - last_error_roll
+            derivative_error_pitch = error_pitch - last_error_pitch
+            derivative_error_yaw = error_yaw - last_error_yaw
+            derivative_error_alt = error_alt - last_error_alt
+            control_pitch = sliding_takeoff.takeoff(error_pitch, derivative_error_pitch)
+            control_roll = sliding_takeoff.takeoff(error_roll, derivative_error_roll)
+            control_yaw = sliding_takeoff.takeoff(error_yaw, derivative_error_yaw)
+            control_alt = sliding_takeoff.takeoff(error_alt, derivative_error_alt)
+            
+            vehicle.channels.overrides = {
+                '1': 1500 + int(control_input_roll),
+                '2': 1500 + int(control_input_pitch),
+                '3': 1500 + int(control_input_alt),
+                '4': 1500 + int(control_input_yaw)
+            }
+            
+            last_error_pitch = error_pitch
+            last_error_yaw = error_yaw
+            last_error_altitude = error_alt
+            
+            if vehicle.location.global_relative_frame.alt >= target * 0.8:
+                print("Reached target altitude")
+                db.child("app").child("copters").child("0").child("commands").child("response").set("Reached Altitude.")
+                time.sleep(1)
+                db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+                break
+            time.sleep(1)
         
 def set_servo(number, pwm):
     msg = vehicle.message_factory.command_long_encode(
