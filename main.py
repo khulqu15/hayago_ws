@@ -184,7 +184,7 @@ def firebase_listener():
     
     print(action)
     if action == "takeoff":
-        arm_and_takeoff(takeoff_alt)
+        arm_and_takeoff(takeoff_alt, True)
         time.sleep(2)
         db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
    
