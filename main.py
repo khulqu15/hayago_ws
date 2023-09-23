@@ -178,113 +178,113 @@ def firebase_listener():
         except Exception as e:
             print(f"Error changing mode: {e}")
         
-try:
-    db.child("app").child("copters").child("0").child("actived").set(True)
-    connected = db.child("app").child("copters").child("0").child("connected").get().val()
-    if connected:
+# try:
+db.child("app").child("copters").child("0").child("actived").set(True)
+connected = db.child("app").child("copters").child("0").child("connected").get().val()
+if connected:
+    
+    # INITIAL EKF
+    x0 = np.zeros(18)
+    dt = 0.1
+    F = np.eye(18)
+    F[0, 6] = F[1, 7] = F[2, 8] = F[3, 9] = F[4, 10] = F[5, 11] = dt
+    F[6, 12] = F[7, 13] = F[8, 14] = F[9, 15] = F[10, 16] = F[11, 17] = dt
+    H = np.eye(18)
+    q_val = 0.01
+    Q = np.diag([q_val] * 18)
+    r_val = 0.1
+    R = np.diag([r_val] * 18)
+    p_val = 0.1
+    P = np.diag([p_val] * 18)
+    location = get_absolute_location_data()
+    orientation = get_orientation_data()
+    velocity = get_velocity_data()
+    x0 = np.array([location.lat, location.lon, location.alt,
+                    orientation.roll, orientation.pitch, orientation.yaw,
+                    velocity[0], velocity[1], velocity[2],
+                    0, 0, 0,
+                    0, 0, 0,
+                    0, 0, 0])
+    extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
+    angular_velocity_prev = {"rollspeed": 0, "pitchspeed": 0, "yawspeed": 0}
+    time_prev = time.time()
+    
+    while True:
+        time_curr = time.time()
+        dt = time_curr - time_prev
+        velocity_curr = get_velocity_data()
+        orientation_curr = get_orientation_data()
+        ax = (velocity_curr[0] - velocity[0]) / dt
+        ay = (velocity_curr[1] - velocity[1]) / dt
+        az = (velocity_curr[2] - velocity[2]) / dt
+        roll_rate = (orientation_curr.roll - orientation.roll) / dt
+        pitch_rate = (orientation_curr.pitch - orientation.pitch) / dt
+        yaw_rate = (orientation_curr.yaw - orientation.yaw) / dt
+        roll_accel = (roll_rate - angular_velocity_prev["rollspeed"]) / dt
+        pitch_accel = (pitch_rate - angular_velocity_prev["pitchspeed"]) / dt
+        yaw_accel = (yaw_rate - angular_velocity_prev["yawspeed"]) / dt
         
-        # INITIAL EKF
-        x0 = np.zeros(18)
-        dt = 0.1
-        F = np.eye(18)
-        F[0, 6] = F[1, 7] = F[2, 8] = F[3, 9] = F[4, 10] = F[5, 11] = dt
-        F[6, 12] = F[7, 13] = F[8, 14] = F[9, 15] = F[10, 16] = F[11, 17] = dt
-        H = np.eye(18)
-        q_val = 0.01
-        Q = np.diag([q_val] * 18)
-        r_val = 0.1
-        R = np.diag([r_val] * 18)
-        p_val = 0.1
-        P = np.diag([p_val] * 18)
-        location = get_absolute_location_data()
-        orientation = get_orientation_data()
-        velocity = get_velocity_data()
-        x0 = np.array([location.lat, location.lon, location.alt,
-                       orientation.roll, orientation.pitch, orientation.yaw,
-                       velocity[0], velocity[1], velocity[2],
-                       0, 0, 0,
-                       0, 0, 0,
-                       0, 0, 0])
-        extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
-        angular_velocity_prev = {"rollspeed": 0, "pitchspeed": 0, "yawspeed": 0}
-        time_prev = time.time()
-        
-        while True:
-            time_curr = time.time()
-            dt = time_curr - time_prev
-            velocity_curr = get_velocity_data()
-            orientation_curr = get_orientation_data()
-            ax = (velocity_curr[0] - velocity[0]) / dt
-            ay = (velocity_curr[1] - velocity[1]) / dt
-            az = (velocity_curr[2] - velocity[2]) / dt
-            roll_rate = (orientation_curr.roll - orientation.roll) / dt
-            pitch_rate = (orientation_curr.pitch - orientation.pitch) / dt
-            yaw_rate = (orientation_curr.yaw - orientation.yaw) / dt
-            roll_accel = (roll_rate - angular_velocity_prev["rollspeed"]) / dt
-            pitch_accel = (pitch_rate - angular_velocity_prev["pitchspeed"]) / dt
-            yaw_accel = (yaw_rate - angular_velocity_prev["yawspeed"]) / dt
-            
-            print("Measured: ")
-            print(comparation_ekf_data_["Measured"].shape)
-            print("Predicted: ")
-            print(comparation_ekf_data_["Predicted"].shape)
-            
-            extended_kf_.predict()
-            z = np.array([
-                vehicle.location.global_frame.lat, vehicle.location.global_frame.lon, vehicle.location.global_frame.alt,
-                vehicle.attitude.roll, vehicle.attitude.pitch, vehicle.attitude.yaw,
-                vehicle.velocity[0], vehicle.velocity[1], vehicle.velocity[2],
-                roll_rate, pitch_rate, yaw_rate,
-                ax, ay, az,
-                roll_accel, pitch_accel, yaw_accel
-            ])
-            extended_kf_.update(z)
-            extended_kfx = extended_kf_.x
-            if z is not None and extended_kfx is not None: 
-                comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
-                comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
-
-            print("Waiting for commands...")
-            time.sleep(0.5)
-            firebase_listener()
-            time.sleep(2)
-            orientation = orientation_curr
-            velocity = velocity_curr
-            time_prev = time_curr
-            angular_velocity_prev = {"rollspeed": roll_rate, "pitchspeed": pitch_rate, "yawspeed": yaw_rate}
-            if vehicle.mode.name == 'LAND':
-                if vehicle.location.global_relative_frame.alt < 0.2:
-                    time.sleep(1)
-                    break
-        
-        plt.figure(figsize=(15, 10))
         print("Measured: ")
         print(comparation_ekf_data_["Measured"].shape)
         print("Predicted: ")
         print(comparation_ekf_data_["Predicted"].shape)
-        for i in range(18):
-            plt.subplot(6, 3, i+1)
-            print(f"Measured: {i}")
-            print(comparation_ekf_data_["Measured"][i, :].shape)
-            print(f"Predicted: {i}")
-            print(comparation_ekf_data_["Predicted"][i, :].shape)
-            plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
-            plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
-            plt.title(f"State {i+1}")
-        plt.legend()
-        plt.tight_layout()
-        filename = "ekf_data"
-        plt.savefig(filename+".png")
-        df = pd.DataFrame(np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"])), 
-                          columns=[f"Measured_{i}" for i in range(18)] + [f"Predicted_{i}" for i in range(18)])
-        df.to_csv(filename+".csv", index=False)
-        storage.child("drone/data/"+filename+".png").put(filename+".png")
-        storage.child("drone/data/"+filename+".png").put(filename+".png")
-        os.remove(filename+".png")
-        os.remove(filename+".csv")
         
-    else:
-        print("Drone is not connected")
+        extended_kf_.predict()
+        z = np.array([
+            vehicle.location.global_frame.lat, vehicle.location.global_frame.lon, vehicle.location.global_frame.alt,
+            vehicle.attitude.roll, vehicle.attitude.pitch, vehicle.attitude.yaw,
+            vehicle.velocity[0], vehicle.velocity[1], vehicle.velocity[2],
+            roll_rate, pitch_rate, yaw_rate,
+            ax, ay, az,
+            roll_accel, pitch_accel, yaw_accel
+        ])
+        extended_kf_.update(z)
+        extended_kfx = extended_kf_.x
+        if z is not None and extended_kfx is not None: 
+            comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
+            comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
+
+        print("Waiting for commands...")
+        time.sleep(0.5)
+        firebase_listener()
+        time.sleep(2)
+        orientation = orientation_curr
+        velocity = velocity_curr
+        time_prev = time_curr
+        angular_velocity_prev = {"rollspeed": roll_rate, "pitchspeed": pitch_rate, "yawspeed": yaw_rate}
+        if vehicle.mode.name == 'LAND':
+            if vehicle.location.global_relative_frame.alt < 0.2:
+                time.sleep(1)
+                break
+    
+    plt.figure(figsize=(15, 10))
+    print("Measured: ")
+    print(comparation_ekf_data_["Measured"].shape)
+    print("Predicted: ")
+    print(comparation_ekf_data_["Predicted"].shape)
+    for i in range(18):
+        plt.subplot(6, 3, i+1)
+        print(f"Measured: {i}")
+        print(comparation_ekf_data_["Measured"][i, :].shape)
+        print(f"Predicted: {i}")
+        print(comparation_ekf_data_["Predicted"][i, :].shape)
+        plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
+        plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
+        plt.title(f"State {i+1}")
+    plt.legend()
+    plt.tight_layout()
+    filename = "ekf_data"
+    plt.savefig(filename+".png")
+    df = pd.DataFrame(np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"])), 
+                        columns=[f"Measured_{i}" for i in range(18)] + [f"Predicted_{i}" for i in range(18)])
+    df.to_csv(filename+".csv", index=False)
+    storage.child("drone/data/"+filename+".png").put(filename+".png")
+    storage.child("drone/data/"+filename+".png").put(filename+".png")
+    os.remove(filename+".png")
+    os.remove(filename+".csv")
+    
+else:
+    print("Drone is not connected")
         
 # except Exception as e:
 #     print("An error occurred:", str(e))
