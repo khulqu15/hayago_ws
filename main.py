@@ -98,7 +98,8 @@ def get_relative_location_data():
     return vehicle.location.global_relative_frame
 
 def get_absolute_location_data():
-    return vehicle.location.global_frame
+    print(f"Location: {vehicle.location.global_relative_frame}")
+    return vehicle.location.global_relative_frame
 
 def has_arrived(target_location, threshold=0.0001):
     current_location = vehicle.location.global_relative_frame
