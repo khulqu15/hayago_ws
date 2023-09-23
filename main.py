@@ -263,7 +263,7 @@ if connected:
         time_prev = time_curr
         angular_velocity_prev = {"rollspeed": roll_rate, "pitchspeed": pitch_rate, "yawspeed": yaw_rate}
         if vehicle.mode.name == 'LAND':
-            if vehicle.location.global_relative_frame.alt < 0.2:
+            if vehicle.location.global_relative_frame.alt < 1:
                 time.sleep(1)
                 break
     
@@ -271,12 +271,11 @@ if connected:
     plt.suptitle("Hayago Extended Kalman Filter Prediction")
     for i in range(18):
         ax = plt.subplot(6, 3, i+1)
-        ax = plt.set_title(state_names[i])
-        ax = plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
-        ax = plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
-        ax = plt.title(f"State {i+1}")
+        ax.set_title(state_names[i])
+        ax.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
+        ax.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
     plt.legend()
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.97])
     filename = "ekf_data"
     plt.savefig(filename+".png")
     
