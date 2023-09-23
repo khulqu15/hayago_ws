@@ -278,12 +278,14 @@ if connected:
     plt.savefig(filename+".png")
     
     errors = comparation_ekf_data_["Measured"] - comparation_ekf_data_["Predicted"]
-    rmse = np.sqrt(np.mean(errors**2, axis=1)).reshape(-1, 1)
-    headers = [f"Measured_{state}" for state in state_names] + [f"Predicted_{state}" for state in state_names] + [f"Error_RMS_{state}" for state in state_names]
-    data_combined = np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"], errors, rmse))
-    df = pd.DataFrame(data_combined, columns=headers)
-    df.to_csv(filename+".csv", index=False)
-    
+    rmse = np.sqrt(np.mean(errors**2, axis=1))
+    df_errors = pd.DataFrame(errors.transpose(), columns=[f"Error_{state}" for state in state_names])
+    df_rmse = pd.DataFrame(rmse.transpose(), columns=[f"RMSE_{state}" for state in state_names])
+    df_measured = pd.DataFrame(comparation_ekf_data_["Measured"].transpose(), columns=[f"Measured_{state}" for state in state_names])
+    df_predicted = pd.DataFrame(comparation_ekf_data_["Predicted"].transpose(), columns=[f"Predicted_{state}" for state in state_names])
+    df_to_save = pd.concat([df_measured, df_predicted, df_errors, df_rmse], axis=1)
+    df_to_save.to_csv(filename+".csv", index=False)
+
     storage.child("drone/data/"+filename+".png").put(filename+".png")
     storage.child("drone/data/"+filename+".csv").put(filename+".csv")
     os.remove(filename+".png")
