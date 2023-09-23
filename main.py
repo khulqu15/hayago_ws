@@ -224,9 +224,12 @@ if connected:
     while True:
         time_curr = time.time()
         dt = time_curr - time_prev
-        location_curr = get_relative_location_data()
-        orientation_curr = get_orientation_data()
-        velocity_curr = get_velocity_data()
+        location_curr = vehicle.location.global_relative_frame
+        orientation_curr = vehicle.attitude
+        velocity_curr = vehicle.velocity
+        print(f"Location: {location_curr}")
+        print(f"Orientation: {orientation_curr}")
+        print(f"Velocity: {velocity_curr}")
         # Coordinate Accel
         ax = (velocity_curr[0] - velocity[0]) / dt
         ay = (velocity_curr[1] - velocity[1]) / dt
