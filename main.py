@@ -275,9 +275,15 @@ if connected:
     plt.tight_layout()
     filename = "ekf_data"
     plt.savefig(filename+".png")
+    
+    num_measured = comparation_ekf_data_["Measured"].shape[1]
+    num_predicted = comparation_ekf_data_["Predicted"].shape[1]
+    cols_measured = [f"Measured_{i}" for i in range(num_measured)]
+    cols_predicted = [f"Predicted_{i}" for i in range(num_predicted)]
     df = pd.DataFrame(np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"])), 
-                        columns=[f"Measured_{i}" for i in range(18)] + [f"Predicted_{i}" for i in range(18)])
+                    columns=cols_measured + cols_predicted)
     df.to_csv(filename+".csv", index=False)
+    
     storage.child("drone/data/"+filename+".png").put(filename+".png")
     storage.child("drone/data/"+filename+".png").put(filename+".png")
     os.remove(filename+".png")
