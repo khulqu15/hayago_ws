@@ -256,7 +256,7 @@ if connected:
         print("Waiting for commands...")
         time.sleep(0.5)
         firebase_listener()
-        time.sleep(2)
+        time.sleep(0.5)
         orientation = orientation_curr
         velocity = velocity_curr
         time_prev = time_curr
@@ -265,6 +265,8 @@ if connected:
             if vehicle.location.global_relative_frame.alt < 1:
                 time.sleep(1)
                 break
+            
+    iteration = int(db.child("app").child("copters").child("0").child("iteration").get().val())
     plt.figure(figsize=(25, 20))
     plt.suptitle("Hayago Extended Kalman Filter Prediction")
     for i in range(18):
@@ -274,9 +276,8 @@ if connected:
         ax.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
     plt.legend()
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    filename = "ekf_data"
+    filename = f"ekf_data_{iteration}"
     plt.savefig(filename+".png")
-    
     errors = comparation_ekf_data_["Measured"] - comparation_ekf_data_["Predicted"]
     rmse = np.sqrt(np.mean(errors**2, axis=1))
     df_errors = pd.DataFrame(errors.transpose(), columns=[f"Error_{state}" for state in state_names])
@@ -288,6 +289,7 @@ if connected:
 
     storage.child("drone/data/"+filename+".png").put(filename+".png")
     storage.child("drone/data/"+filename+".csv").put(filename+".csv")
+    db.child("app").child("copters").child("0").child("iteration").set(iteration+1)
     os.remove(filename+".png")
     os.remove(filename+".csv")
     
