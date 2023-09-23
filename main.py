@@ -13,7 +13,7 @@ config = {
     "apiKey": "AIzaSyBi8dJvahsGnlEJxt2XW9CbCVCZ_F8QbIA",
     "authDomain": "eco-enzym.firebaseapp.com",
     "databaseURL": "https://eco-enzym-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "storageBucket": "eco-enzym.appspot.com"
+    "storageBucket": "eco-enzym.appspot.com",
 }
 
 firebase = pyrebase.initialize_app(config)
@@ -24,6 +24,16 @@ comparation_ekf_data_ = {
     "Measured": np.empty((18, 0)),
     "Predicted": np.empty((18, 0))
 }
+
+    
+state_names = [
+    "x", "y", "z",
+    "roll", "pitch", "yaw",
+    "x'", "y'", "z'",
+    "roll'", "pitch'", "yaw'",
+    "x''", "y''", "z''",
+    "roll''", "pitch''", "yaw''"
+]
 
 def end_drone():
     db.child("app").child("copters").child("0").child("actived").set(False)
@@ -257,20 +267,14 @@ if connected:
                 time.sleep(1)
                 break
     
-    plt.figure(figsize=(15, 10))
-    print("Measured: ")
-    print(comparation_ekf_data_["Measured"].shape)
-    print("Predicted: ")
-    print(comparation_ekf_data_["Predicted"].shape)
+    plt.figure(figsize=(25, 20))
+    plt.suptitle("Hayago Extended Kalman Filter Prediction")
     for i in range(18):
-        plt.subplot(6, 3, i+1)
-        print(f"Measured: {i}")
-        print(comparation_ekf_data_["Measured"][i, :].shape)
-        print(f"Predicted: {i}")
-        print(comparation_ekf_data_["Predicted"][i, :].shape)
-        plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
-        plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
-        plt.title(f"State {i+1}")
+        ax = plt.subplot(6, 3, i+1)
+        ax = plt.set_title(state_names[i])
+        ax = plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
+        ax = plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
+        ax = plt.title(f"State {i+1}")
     plt.legend()
     plt.tight_layout()
     filename = "ekf_data"
@@ -285,7 +289,7 @@ if connected:
     df.to_csv(filename+".csv", index=False)
     
     storage.child("drone/data/"+filename+".png").put(filename+".png")
-    storage.child("drone/data/"+filename+".png").put(filename+".png")
+    storage.child("drone/data/"+filename+".csv").put(filename+".csv")
     os.remove(filename+".png")
     os.remove(filename+".csv")
     
