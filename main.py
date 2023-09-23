@@ -287,10 +287,10 @@ if connected:
         db.child("app").child("copters").child("0").child("slide_mode").child("alt_control").set(control_input_alt)
         db.child("app").child("copters").child("0").child("slide_mode").child("alt_error").set(error_alt)
         
-        vehicle.channels.overrides['1'] = 1500 + control_input_roll
-        vehicle.channels.overrides['2'] = 1500 + control_input_pitch
-        vehicle.channels.overrides['3'] = 1500 + control_input_alt
-        vehicle.channels.overrides['4'] = 1500 + control_input_yaw
+        vehicle.channels.overrides['1'] = 1500 + round(control_input_roll)
+        vehicle.channels.overrides['2'] = 1500 + round(control_input_pitch)
+        vehicle.channels.overrides['3'] = 1500 + round(control_input_alt)
+        vehicle.channels.overrides['4'] = 1500 + round(control_input_yaw)
         
         if z is not None and extended_kfx is not None: 
             comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
@@ -307,7 +307,7 @@ if connected:
         if vehicle.mode.name == 'LAND':
             if vehicle.location.global_relative_frame.alt < 1:
                 time.sleep(1)
-                vehicle.channels.overrides['4'] = 1500 + control_input_yaw
+                vehicle.channels.overrides = {}
                 break
             
     iteration = int(db.child("app").child("copters").child("0").child("iteration").get().val())
