@@ -216,6 +216,7 @@ if connected:
                     0, 0, 0,
                     0, 0, 0,
                     0, 0, 0])
+    print(f"X Value: {x0}")
     extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
     angular_velocity_prev = {"rollspeed": 0, "pitchspeed": 0, "yawspeed": 0}
     time_prev = time.time()
