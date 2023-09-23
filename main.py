@@ -111,10 +111,10 @@ def arm_and_takeoff(target_altitude, sliding=False):
             control_alt = sliding_takeoff.takeoff(error_alt, derivative_error_alt)
             
             vehicle.channels.overrides = {
-                '1': 1500 + int(control_input_roll),
-                '2': 1500 + int(control_input_pitch),
-                '3': 1500 + int(control_input_alt),
-                '4': 1500 + int(control_input_yaw)
+                '1': 1500 + int(control_roll),
+                '2': 1500 + int(control_pitch),
+                '3': 1500 + int(control_alt),
+                '4': 1500 + int(control_yaw)
             }
             
             last_error_pitch = error_pitch
