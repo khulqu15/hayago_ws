@@ -2,11 +2,12 @@ import pyrebase
 import dronekit
 import time
 import ekf
+import smc
+import rbf
 import numpy as np
 from pymavlink import mavutil
 import matplotlib.pyplot as plt
 import pandas as pd
-import smc
 import os
 
 config = {
@@ -280,6 +281,9 @@ if connected:
     print(f"X Value: {x0}")
     extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
     slide_mode_ = smc.SlidingModeControl(lambda_, delta_, kD_)
+    radial_base_roll_ = rbf.RBFNN(num_centers=10)
+    radial_base_pitch_ = rbf.RBFNN(num_centers=10)
+    radial_base_yaw_ = rbf.RBFNN(num_centers=10)
     angular_velocity_prev = {"rollspeed": 0, "pitchspeed": 0, "yawspeed": 0}
     time_prev = time.time()
     
@@ -323,14 +327,22 @@ if connected:
         pitch_est = extended_kf_.x[4]  # Pitch
         yaw_est = extended_kf_.x[5]  # Yaw
         
+        disturbance_estimated_roll = radial_base_roll_.forward(orientation_curr.roll)
+        disturbance_estimated_pitch = radial_base_pitch_.forward(orientation_curr.pitch)
+        disturbance_estimated_yaw = radial_base_yaw_.forward(orientation_curr.yaw)
+        
+        radial_base_roll_.adapt_weights(orientation_curr.roll, error_roll)
+        radial_base_pitch_.adapt_weights(orientation_curr.pitch, error_pitch)
+        radial_base_yaw_.adapt_weights(orientation_curr.yaw, error_yaw)
+        
         error_roll = 0 - extended_kf_.x[3]
         error_pitch = 0 - extended_kf_.x[4]
         error_yaw = 0 - extended_kf_.x[5]
         error_alt = takeoff_alt - extended_kf_.x[2]
         
-        control_input_roll = slide_mode_.control_law(error_roll)
-        control_input_pitch = slide_mode_.control_law(error_pitch)
-        control_input_yaw = slide_mode_.control_law(error_yaw)
+        control_input_roll = slide_mode_.control_law(error_roll) + disturbance_estimated_roll
+        control_input_pitch = slide_mode_.control_law(error_pitch) + disturbance_estimated_pitch
+        control_input_yaw = slide_mode_.control_law(error_yaw) + disturbance_estimated_yaw
         control_input_alt = slide_mode_.control_law(error_alt)
         
         db.child("app").child("copters").child("0").child("slide_mode").child("roll_control").set(control_input_roll)
