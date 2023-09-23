@@ -235,8 +235,9 @@ try:
             ])
             extended_kf_.update(z)
             extended_kfx = extended_kf_.x
-            comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
-            comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
+            if z is not None and extended_kfx is not None:
+                comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
+                comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
             
             print("Waiting for commands...")
             time.sleep(0.5)
