@@ -1,7 +1,13 @@
 import pyrebase
 import dronekit
 import time
+import ekf
+import numpy as np
 from pymavlink import mavutil
+import matplotlib.pyplot as plt
+import pandas as pd
+import uuid
+import os
 
 config = {
     "apiKey": "AIzaSyBi8dJvahsGnlEJxt2XW9CbCVCZ_F8QbIA",
@@ -12,6 +18,12 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
+storage = firebase.storage()
+
+comparation_ekf_data_ = {
+    "Measured": np.zeros((18, 0)),
+    "Predicted": np.zeros((18, 0))
+}
 
 def end_drone():
     db.child("app").child("copters").child("0").child("actived").set(False)
@@ -66,6 +78,18 @@ def set_servo(number, pwm):
     vehicle.send_mavlink(msg)
     vehicle.flush()
     
+def get_orientation_data():
+    return vehicle.attitude
+
+def get_velocity_data():
+    return vehicle.velocity
+
+def get_relative_location_data():
+    return vehicle.location.global_relative_frame
+
+def get_absolute_location_data():
+    return vehicle.location.global_frame
+
 def has_arrived(target_location, threshold=0.0001):
     current_location = vehicle.location.global_relative_frame
     lat_diff = abs(current_location.lat - target_location.lat)
@@ -158,10 +182,87 @@ try:
     db.child("app").child("copters").child("0").child("actived").set(True)
     connected = db.child("app").child("copters").child("0").child("connected").get().val()
     if connected:
+        
+        # INITIAL EKF
+        x0 = np.zeros(17)
+        dt = 0.1
+        F = np.eye(12)
+        F[0, 6] = F[1, 7] = F[2, 8] = F[3, 9] = F[4, 10] = F[5, 11] = dt
+        F[6, 12] = F[7, 13] = F[8, 14] = F[9, 15] = F[10, 16] = F[11, 17] = dt
+        H = np.eye(18)
+        q_val = 0.01
+        Q = np.diag([q_val] * 18)
+        r_val = 0.1
+        R = np.diag([r_val] * 18)
+        p_val = 0.1
+        P = np.diag([p_val] * 18)
+        location = get_absolute_location_data()
+        orientation = get_orientation_data()
+        velocity = get_velocity_data()
+        x0 = np.array([location.lat, location.lon, location.alt,
+                       orientation.roll, orientation.pitch, orientation.yaw,
+                       velocity[0], velocity[1], velocity[2],
+                       orientation.rollspeed, orientation.pitchspeed, orientation.yawspeed,
+                       0, 0, 0,
+                       0, 0, 0])
+        extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
+        time_prev = time.time()
+        
         while True:
+            time_curr = time.time()
+            dt = time_curr - time_prev
+            velocity_curr = get_velocity_data()
+            orientation_curr = get_orientation_data()
+            ax = (velocity_curr[0] - velocity[0]) / dt
+            ay = (velocity_curr[1] - velocity[1]) / dt
+            az = (velocity_curr[2] - velocity[2]) / dt
+            roll_rate = (orientation_curr.roll - orientation.roll) / dt
+            pitch_rate = (orientation_curr.pitch - orientation.pitch) / dt
+            yaw_rate = (orientation_curr.yaw - orientation.yaw) / dt
+            extended_kf_.predict()
+            z = np.array([
+                vehicle.location.global_frame.lat, vehicle.location.global_frame.lon, vehicle.location.global_frame.alt,
+                vehicle.attitude.roll, vehicle.attitude.pitch, vehicle.attitude.yaw,
+                vehicle.velocity[0], vehicle.velocity[1], vehicle.velocity[2],
+                vehicle.attitude.rollspeed, vehicle.attitude.pitchspeed, vehicle.attitude.yawspeed,
+                ax, ay, az,
+                roll_rate, pitch_rate, yaw_rate
+            ])
+            extended_kf_.update(z)
+            extended_kfx = extended_kf_.x
+            comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
+            comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
+            
             print("Waiting for commands...")
             firebase_listener()
             time.sleep(2)
+            orientation = orientation_curr
+            velocity = velocity_curr
+            
+            if vehicle.mode.name == 'LAND':
+                if vehicle.location.global_relative_frame.alt < 0.2:
+                    time.sleep(3)
+                    break
+        
+        plt.figure(figsize=(15, 10))
+        for i in range(18):
+            plt.subplot(6, 3, i+1)
+            plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
+            plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
+            plt.title(f"State {i+1}")
+        plt.legend()
+        plt.tight_layout()
+        filename = "ekf_data"
+        plt.savefig(filename+".png")
+        df = pd.DataFrame(np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"])), 
+                          columns=[f"Measured_{i}" for i in range(18)] + [f"Predicted_{i}" for i in range(18)])
+        df.to_csv(filename+".csv", index=False)
+        storage.child("drone/data/"+filename+".png").put(filename+".png")
+        storage.child("drone/data/"+filename+".png").put(filename+".png")
+        os.remove(filename+".png")
+        os.remove(filename+".csv")
+        
+        
     else:
         print("Drone is not connected")
         
