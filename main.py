@@ -117,7 +117,7 @@ def update_location_to_firebase():
 
 def update_battery_to_firebase():
     if vehicle.battery:
-        battery_percent = vehicle.battery.level
+        battery_percent = vehicle.battery.voltage
         db.child("app").child("copters").child("0").child("power").set(battery_percent)
         print(f"Battery updated: {battery_percent}%")
     else:
