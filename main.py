@@ -52,7 +52,6 @@ def arm_and_takeoff(target_altitude, sliding=False):
     db.child("app").child("copters").child("0").child("commands").child("mode").set("STABILIZE")
     vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
-    
     # print("Prearm Check")
     # while not vehicle.is_armable:
     #     print("Waiting for ready")
@@ -119,7 +118,16 @@ def arm_and_takeoff(target_altitude, sliding=False):
             
             last_error_pitch = error_pitch
             last_error_yaw = error_yaw
-            last_error_altitude = error_alt
+            last_error_alt = error_alt
+            
+            db.child("app").child("copters").child("0").child("slide_mode").child("roll_control").set(control_roll)
+            db.child("app").child("copters").child("0").child("slide_mode").child("roll_error").set(error_roll)
+            db.child("app").child("copters").child("0").child("slide_mode").child("pitch_control").set(control_pitch)
+            db.child("app").child("copters").child("0").child("slide_mode").child("pitch_error").set(error_pitch)
+            db.child("app").child("copters").child("0").child("slide_mode").child("yaw_control").set(control_yaw)
+            db.child("app").child("copters").child("0").child("slide_mode").child("yaw_error").set(error_yaw)
+            db.child("app").child("copters").child("0").child("slide_mode").child("alt_control").set(control_alt)
+            db.child("app").child("copters").child("0").child("slide_mode").child("alt_error").set(error_alt)
             
             if vehicle.location.global_relative_frame.alt >= target * 0.8:
                 print("Reached target altitude")
