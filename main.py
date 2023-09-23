@@ -6,7 +6,7 @@ import numpy as np
 from pymavlink import mavutil
 import matplotlib.pyplot as plt
 import pandas as pd
-import uuid
+import smc
 import os
 
 config = {
@@ -20,11 +20,17 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 storage = firebase.storage()
 
+lambdaRef = db.child("app").child("copters").child("0").child("tuning").child("lambda").get().val()
+lambda_ = float(lambdaRef)
+deltaRef = db.child("app").child("copters").child("0").child("tuning").child("delta").get().val()
+delta_ = float(deltaRef)
+kDRef = db.child("app").child("copters").child("0").child("tuning").child("kd").get().val()
+kD_ = float(kDRef)
+
 comparation_ekf_data_ = {
     "Measured": np.empty((18, 0)),
     "Predicted": np.empty((18, 0))
 }
-
     
 state_names = [
     "x", "y", "z",
@@ -218,6 +224,7 @@ if connected:
                     0, 0, 0])
     print(f"X Value: {x0}")
     extended_kf_ = ekf.ExtendedKalmanFilter(F, H, Q, R, P, x0)
+    slide_mode_ = smc.SlidingModeControl(lambda_, delta_, kD_)
     angular_velocity_prev = {"rollspeed": 0, "pitchspeed": 0, "yawspeed": 0}
     time_prev = time.time()
     
@@ -230,6 +237,7 @@ if connected:
         print(f"Location: {location_curr}")
         print(f"Orientation: {orientation_curr}")
         print(f"Velocity: {velocity_curr}")
+        takeoff_alt = db.child("app").child("copters").child("0").child("commands").child("takeoff_alt").get().val()
         # Coordinate Accel
         ax = (velocity_curr[0] - velocity[0]) / dt
         ay = (velocity_curr[1] - velocity[1]) / dt
@@ -252,12 +260,42 @@ if connected:
             ax, ay, az,
             roll_accel, pitch_accel, yaw_accel
         ])
+        
         extended_kf_.update(z)
         extended_kfx = extended_kf_.x
+        z_est = extended_kf_.x[2] # Alt
+        roll_est = extended_kf_.x[3]  # Roll
+        pitch_est = extended_kf_.x[4]  # Pitch
+        yaw_est = extended_kf_.x[5]  # Yaw
+        
+        error_roll = 0 - extended_kf_.x[3]
+        error_pitch = 0 - extended_kf_.x[4]
+        error_yaw = 0 - extended_kf_.x[5]
+        error_alt = takeoff_alt - extended_kf_.x[2]
+        
+        control_input_roll = slide_mode_.control_law(error_roll)
+        control_input_pitch = slide_mode_.control_law(error_pitch)
+        control_input_yaw = slide_mode_.control_law(error_yaw)
+        control_input_alt = slide_mode_.control_law(error_alt)
+        
+        db.child("app").child("copters").child("0").child("slide_mode").child("roll_control").set(control_input_roll)
+        db.child("app").child("copters").child("0").child("slide_mode").child("roll_error").set(error_roll)
+        db.child("app").child("copters").child("0").child("slide_mode").child("pitch_control").set(control_input_pitch)
+        db.child("app").child("copters").child("0").child("slide_mode").child("pitch_error").set(error_pitch)
+        db.child("app").child("copters").child("0").child("slide_mode").child("yaw_control").set(control_input_yaw)
+        db.child("app").child("copters").child("0").child("slide_mode").child("yaw_error").set(error_yaw)
+        db.child("app").child("copters").child("0").child("slide_mode").child("alt_control").set(control_input_alt)
+        db.child("app").child("copters").child("0").child("slide_mode").child("alt_error").set(error_alt)
+        
+        vehicle.channels.overrides['1'] = 1500 + control_input_roll
+        vehicle.channels.overrides['2'] = 1500 + control_input_pitch
+        vehicle.channels.overrides['3'] = 1500 + control_input_alt
+        vehicle.channels.overrides['4'] = 1500 + control_input_yaw
+        
         if z is not None and extended_kfx is not None: 
             comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
             comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
-
+        
         print("Waiting for commands...")
         time.sleep(0.5)
         firebase_listener()
@@ -269,6 +307,7 @@ if connected:
         if vehicle.mode.name == 'LAND':
             if vehicle.location.global_relative_frame.alt < 1:
                 time.sleep(1)
+                vehicle.channels.overrides['4'] = 1500 + control_input_yaw
                 break
             
     iteration = int(db.child("app").child("copters").child("0").child("iteration").get().val())
