@@ -286,8 +286,8 @@ try:
     else:
         print("Drone is not connected")
         
-except Exception as e:
-    print("An error occurred:", str(e))
-    vehicle.mode = dronekit.VehicleMode("RTL")
-    db.child("app").child("copters").child("0").child("commands").child("mode").set("RTL")
-    # end_drone()
+# except Exception as e:
+#     print("An error occurred:", str(e))
+#     vehicle.mode = dronekit.VehicleMode("RTL")
+#     db.child("app").child("copters").child("0").child("commands").child("mode").set("RTL")
+#     # end_drone()
