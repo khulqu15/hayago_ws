@@ -125,8 +125,8 @@ def update_battery_to_firebase():
         print("Cannot get battery info.")
 
 def firebase_listener():
-    update_location_to_firebase()
-    update_battery_to_firebase()
+    # update_location_to_firebase()
+    # update_battery_to_firebase()
     
     action = db.child("app").child("copters").child("0").child("commands").child("action").get().val()
     takeoff_alt = db.child("app").child("copters").child("0").child("commands").child("takeoff_alt").get().val()
