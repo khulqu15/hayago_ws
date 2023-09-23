@@ -21,8 +21,8 @@ db = firebase.database()
 storage = firebase.storage()
 
 comparation_ekf_data_ = {
-    "Measured": np.zeros((18, 0)),
-    "Predicted": np.zeros((18, 0))
+    "Measured": np.empty((18, 0)),
+    "Predicted": np.empty((18, 0))
 }
 
 def end_drone():
@@ -224,6 +224,11 @@ try:
             pitch_accel = (pitch_rate - angular_velocity_prev["pitchspeed"]) / dt
             yaw_accel = (yaw_rate - angular_velocity_prev["yawspeed"]) / dt
             
+            print("Measured: ")
+            print(comparation_ekf_data_["Measured"].shape)
+            print("Predicted: ")
+            print(comparation_ekf_data_["Predicted"].shape)
+            
             extended_kf_.predict()
             z = np.array([
                 vehicle.location.global_frame.lat, vehicle.location.global_frame.lon, vehicle.location.global_frame.alt,
@@ -235,7 +240,7 @@ try:
             ])
             extended_kf_.update(z)
             extended_kfx = extended_kf_.x
-            if z is not None and extended_kfx is not None:
+            if z is not None and extended_kfx is not None: 
                 comparation_ekf_data_["Measured"] = np.hstack((comparation_ekf_data_["Measured"], z.reshape(-1, 1)))
                 comparation_ekf_data_["Predicted"] = np.hstack((comparation_ekf_data_["Predicted"], extended_kfx.reshape(-1, 1)))
             
@@ -269,7 +274,6 @@ try:
         storage.child("drone/data/"+filename+".png").put(filename+".png")
         os.remove(filename+".png")
         os.remove(filename+".csv")
-        
         
     else:
         print("Drone is not connected")
