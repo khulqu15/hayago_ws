@@ -245,7 +245,7 @@ if connected:
         
         extended_kf_.predict()
         z = np.array([
-            vehicle.location.global_frame.lat, vehicle.location.global_frame.lon, vehicle.location.global_frame.alt,
+            vehicle.location.global_relative_frame.lat, vehicle.location.global_relative_frame.lon, vehicle.location.global_relative_frame.alt,
             vehicle.attitude.roll, vehicle.attitude.pitch, vehicle.attitude.yaw,
             vehicle.velocity[0], vehicle.velocity[1], vehicle.velocity[2],
             roll_rate, pitch_rate, yaw_rate,
