@@ -278,9 +278,9 @@ if connected:
     plt.savefig(filename+".png")
     
     errors = comparation_ekf_data_["Measured"] - comparation_ekf_data_["Predicted"]
-    rmse = np.sqrt(np.mean(errors**2, axis=1))
+    rmse = np.sqrt(np.mean(errors**2, axis=1)).reshape(-1, 1)
     headers = [f"Measured_{state}" for state in state_names] + [f"Predicted_{state}" for state in state_names] + [f"Error_RMS_{state}" for state in state_names]
-    data_combined = np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"], rmse.reshape(-1, 1)))
+    data_combined = np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"], errors, rmse))
     df = pd.DataFrame(data_combined, columns=headers)
     df.to_csv(filename+".csv", index=False)
     
