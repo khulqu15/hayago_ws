@@ -292,7 +292,7 @@ if connected:
     db.child("app").child("copters").child("0").child("iteration").set(iteration+1)
     os.remove(filename+".png")
     os.remove(filename+".csv")
-    
+    db.child("app").child("copters").child("0").child("commands").child("mode").set("LOITER")
 else:
     print("Drone is not connected")
         
