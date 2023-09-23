@@ -265,9 +265,6 @@ if connected:
             if vehicle.location.global_relative_frame.alt < 1:
                 time.sleep(1)
                 break
-    errors = comparation_ekf_data_["Measured"] - comparation_ekf_data_["Predicted"]
-    rmse = np.sqrt(np.mean(errors**2, axis=1))
-    
     plt.figure(figsize=(25, 20))
     plt.suptitle("Hayago Extended Kalman Filter Prediction")
     for i in range(18):
@@ -280,11 +277,11 @@ if connected:
     filename = "ekf_data"
     plt.savefig(filename+".png")
     
+    errors = comparation_ekf_data_["Measured"] - comparation_ekf_data_["Predicted"]
+    rmse = np.sqrt(np.mean(errors**2, axis=1))
     headers = [f"Measured_{state}" for state in state_names] + [f"Predicted_{state}" for state in state_names] + [f"Error_RMS_{state}" for state in state_names]
-    data_combined = np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"], errors))
+    data_combined = np.hstack((comparation_ekf_data_["Measured"], comparation_ekf_data_["Predicted"], rmse.reshape(-1, 1)))
     df = pd.DataFrame(data_combined, columns=headers)
-    rmse_row = pd.Series(np.concatenate((rmse, rmse, rmse)), index=headers)
-    df = df.append(rmse_row, ignore_index=True)
     df.to_csv(filename+".csv", index=False)
     
     storage.child("drone/data/"+filename+".png").put(filename+".png")
