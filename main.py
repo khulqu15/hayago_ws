@@ -331,14 +331,14 @@ if connected:
         disturbance_estimated_pitch = radial_base_pitch_.forward(orientation_curr.pitch)
         disturbance_estimated_yaw = radial_base_yaw_.forward(orientation_curr.yaw)
         
-        radial_base_roll_.adapt_weights(orientation_curr.roll, error_roll)
-        radial_base_pitch_.adapt_weights(orientation_curr.pitch, error_pitch)
-        radial_base_yaw_.adapt_weights(orientation_curr.yaw, error_yaw)
-        
         error_roll = 0 - extended_kf_.x[3]
         error_pitch = 0 - extended_kf_.x[4]
         error_yaw = 0 - extended_kf_.x[5]
         error_alt = takeoff_alt - extended_kf_.x[2]
+        
+        radial_base_roll_.adapt_weights(orientation_curr.roll, error_roll)
+        radial_base_pitch_.adapt_weights(orientation_curr.pitch, error_pitch)
+        radial_base_yaw_.adapt_weights(orientation_curr.yaw, error_yaw)
         
         control_input_roll = slide_mode_.control_law(error_roll) + disturbance_estimated_roll
         control_input_pitch = slide_mode_.control_law(error_pitch) + disturbance_estimated_pitch
