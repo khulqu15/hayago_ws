@@ -264,9 +264,9 @@ try:
         print(comparation_ekf_data_["Predicted"].shape)
         for i in range(18):
             plt.subplot(6, 3, i+1)
-            print("Measured: "+i)
+            print(f"Measured: {i}")
             print(comparation_ekf_data_["Measured"][i, :].shape)
-            print("Predicted: "+i)
+            print(f"Predicted: {i}")
             print(comparation_ekf_data_["Predicted"][i, :].shape)
             plt.plot(comparation_ekf_data_["Measured"][i, :], label="Measured")
             plt.plot(comparation_ekf_data_["Predicted"][i, :], label="Predicted")
