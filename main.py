@@ -39,8 +39,8 @@ state_names = [
 def end_drone():
     db.child("app").child("copters").child("0").child("actived").set(False)
 
-# vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
-vehicle = dronekit.connect("udp:127.0.0.1:14551", baud=115200, wait_ready=False, timeout=60)
+vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
+# vehicle = dronekit.connect("udp:127.0.0.1:14551", baud=115200, wait_ready=False, timeout=60)
 home_lat = vehicle.location.global_relative_frame.lat
 home_lon = vehicle.location.global_relative_frame.lon
 db.child("app").child("copters").child("0").child("home").child("latitude").set(home_lat)
