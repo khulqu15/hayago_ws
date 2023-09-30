@@ -9,6 +9,7 @@ from pymavlink import mavutil
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
+import math
 
 config = {
     "apiKey": "AIzaSyBi8dJvahsGnlEJxt2XW9CbCVCZ_F8QbIA",
@@ -20,13 +21,6 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 storage = firebase.storage()
-
-lambdaRef = db.child("app").child("copters").child("0").child("tuning").child("lambda").get().val()
-lambda_ = float(lambdaRef)
-deltaRef = db.child("app").child("copters").child("0").child("tuning").child("delta").get().val()
-delta_ = float(deltaRef)
-kDRef = db.child("app").child("copters").child("0").child("tuning").child("kd").get().val()
-kD_ = float(kDRef)
 
 comparation_ekf_data_ = {
     "Measured": np.empty((18, 0)),
@@ -45,13 +39,19 @@ state_names = [
 def end_drone():
     db.child("app").child("copters").child("0").child("actived").set(False)
 
-vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
+# vehicle = dronekit.connect("/dev/ttyACM0", baud=57600, wait_ready=True, timeout=60)
+vehicle = dronekit.connect("udp:127.0.0.1:14551", baud=115200, wait_ready=False, timeout=60)
+home_lat = vehicle.location.global_relative_frame.lat
+home_lon = vehicle.location.global_relative_frame.lon
+db.child("app").child("copters").child("0").child("home").child("latitude").set(home_lat)
+db.child("app").child("copters").child("0").child("home").child("longitude").set(home_lon)
+
 print("Success Connected")
 
 def arm_and_takeoff(target_altitude, sliding=False):
     vehicle.mode = dronekit.VehicleMode("STABILIZE")
     db.child("app").child("copters").child("0").child("commands").child("mode").set("STABILIZE")
-    vehicle.parameters['ARMING_CHECK'] = 0
+    # vehicle.parameters['ARMING_CHECK'] = 0
     time.sleep(1)
     # print("Prearm Check")
     # while not vehicle.is_armable:
@@ -63,7 +63,6 @@ def arm_and_takeoff(target_altitude, sliding=False):
     print("Taking Off")
     
     if not sliding:
-        vehicle.simple_takeoff(target)
         print("Arming motor")
         vehicle.mode = dronekit.VehicleMode("GUIDED")
         db.child("app").child("copters").child("0").child("commands").child("mode").set("GUIDED")    
@@ -71,6 +70,7 @@ def arm_and_takeoff(target_altitude, sliding=False):
         # while not vehicle.armed:
         #     print("Waiting for arming")
         #     time.sleep(1)
+        vehicle.simple_takeoff(target)
         
         while True:
             print(" Altitude: ", vehicle.location.global_relative_frame.alt)
@@ -94,7 +94,12 @@ def arm_and_takeoff(target_altitude, sliding=False):
         last_error_pitch = 0
         last_error_yaw = 0
         last_error_alt = 0
-        
+        lambdaRef = db.child("app").child("copters").child("0").child("tuning").child("lambda").get().val()
+        lambda_ = float(lambdaRef)
+        deltaRef = db.child("app").child("copters").child("0").child("tuning").child("delta").get().val()
+        delta_ = float(deltaRef)
+        kDRef = db.child("app").child("copters").child("0").child("tuning").child("kd").get().val()
+        kD_ = float(kDRef)
         while True:
             sliding_takeoff = smc.SlidingModeControl(lambda_, delta_, kD_)
             error_roll = 0 - vehicle.attitude.roll
@@ -134,7 +139,7 @@ def arm_and_takeoff(target_altitude, sliding=False):
                 print("Reached target altitude")
                 db.child("app").child("copters").child("0").child("commands").child("response").set("Reached Altitude.")
                 time.sleep(1)
-                db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+                db.child("app").child("copters").child("0").child("commands").child("action").set("disarm")
                 break
             time.sleep(1)
         
@@ -185,6 +190,15 @@ def update_battery_to_firebase():
         print(f"Battery updated: {battery_percent}%")
     else:
         print("Cannot get battery info.")
+        
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat / 2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance = R * c
+    return distance
 
 def firebase_listener():
     # update_location_to_firebase()
@@ -199,9 +213,9 @@ def firebase_listener():
     
     print(action)
     if action == "takeoff":
-        arm_and_takeoff(takeoff_alt, True)
+        arm_and_takeoff(takeoff_alt, False)
         time.sleep(2)
-        db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
+        # db.child("app").child("copters").child("0").child("commands").child("action").set("hover")
    
     elif action == "hover":
         print("Hovering...")
@@ -213,6 +227,7 @@ def firebase_listener():
         set_servo(11, 700)
         time.sleep(int(time_load))
         db.child("app").child("copters").child("0").child("commands").child("response").set("Lift Payload Success.")
+        db.child("app").child("copters").child("0").child("commands").child("action").set("rtl")
         dronekit.VehicleMode("RTL")
         
     elif action == "go_to_target":
@@ -221,6 +236,10 @@ def firebase_listener():
         vehicle.simple_goto(target_location)
         db.child("app").child("copters").child("0").child("commands").child("response").set("Going to target.")
         while not has_arrived(target_location):
+            current_lat = vehicle.location.global_relative_frame.lat
+            current_lon = vehicle.location.global_relative_frame.lon
+            distance_to_target = haversine(current_lat, current_lon, float(target_lat), float(target_lon))
+            print(f"Distance to target: {distance_to_target} km")
             print("Enroute to target...")
             time.sleep(5)
         print("Arrived at target location!")
@@ -241,6 +260,27 @@ def firebase_listener():
         db.child("app").child("copters").child("0").child("commands").child("mode").set("LAND")
         db.child("app").child("copters").child("0").child("commands").child("response").set("Unload Success.")
         db.child("app").child("copters").child("0").child("commands").child("action").set("")
+    
+    elif action == "rtl":
+        # print("RTL")
+        # vehicle.mode = dronekit.VehicleMode("RTL")
+        # db.child("app").child("copters").child("0").child("commands").child("mode").set("RTL")
+        print("Going to home coordinate...")
+        target_location = dronekit.LocationGlobalRelative(float(home_lat), float(home_lon), float(0.5))
+        vehicle.simple_goto(target_location)
+        db.child("app").child("copters").child("0").child("commands").child("response").set("Go Home Now.")
+        while not has_arrived(target_location):
+            current_lat = vehicle.location.global_relative_frame.lat
+            current_lon = vehicle.location.global_relative_frame.lon
+            distance_to_target = haversine(current_lat, current_lon, float(target_lat), float(target_lon))
+            print(f"Distance to target: {distance_to_target} km")
+            print("Enroute to target...")
+            time.sleep(5)
+        db.child("app").child("copters").child("0").child("commands").child("response").set("RETURNING.")
+        db.child("app").child("copters").child("0").child("commands").child("action").set("")
+        time.sleep(5)
+        vehicle.mode = dronekit.VehicleMode("LAND")
+        db.child("app").child("copters").child("0").child("commands").child("mode").set("LAND")
         
     mode = db.child("app").child("copters").child("0").child("commands").child("mode").get().val()
     print(f"Mode from Firebase: {mode}")
@@ -255,7 +295,12 @@ def firebase_listener():
 db.child("app").child("copters").child("0").child("actived").set(True)
 connected = db.child("app").child("copters").child("0").child("connected").get().val()
 if connected:
-    
+    lambdaRef = db.child("app").child("copters").child("0").child("tuning").child("lambda").get().val()
+    lambda_ = float(lambdaRef)
+    deltaRef = db.child("app").child("copters").child("0").child("tuning").child("delta").get().val()
+    delta_ = float(deltaRef)
+    kDRef = db.child("app").child("copters").child("0").child("tuning").child("kd").get().val()
+    kD_ = float(kDRef)
     # INITIAL EKF
     x0 = np.zeros(18)
     dt = 0.1
@@ -331,10 +376,15 @@ if connected:
         disturbance_estimated_pitch = radial_base_pitch_.forward(orientation_curr.pitch)
         disturbance_estimated_yaw = radial_base_yaw_.forward(orientation_curr.yaw)
         
-        error_roll = 0 - extended_kf_.x[3]
-        error_pitch = 0 - extended_kf_.x[4]
-        error_yaw = 0 - extended_kf_.x[5]
+        # error_roll = 0 - extended_kf_.x[3]
+        # error_pitch = 0 - extended_kf_.x[4]
+        # error_yaw = 0 - extended_kf_.x[5]
         error_alt = takeoff_alt - extended_kf_.x[2]
+        
+        error_roll = 0 - orientation_curr.roll
+        error_pitch = 0 - orientation_curr.pitch
+        error_yaw = 0 - orientation_curr.yaw
+        # error_alt = float(takeoff_alt - location_curr.alt)
         
         radial_base_roll_.adapt_weights(orientation_curr.roll, error_roll)
         radial_base_pitch_.adapt_weights(orientation_curr.pitch, error_pitch)
